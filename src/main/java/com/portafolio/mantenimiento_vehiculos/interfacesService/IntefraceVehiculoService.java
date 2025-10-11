@@ -13,7 +13,6 @@ import java.util.Optional;
  * @author Andres
  */
 public interface IntefraceVehiculoService {
-    
     public List<Vehiculo> listar();
     public Optional<Vehiculo> listarId(int id);
     public void delete(int id);
