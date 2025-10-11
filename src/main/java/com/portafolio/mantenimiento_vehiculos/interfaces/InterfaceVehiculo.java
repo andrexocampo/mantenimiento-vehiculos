@@ -13,6 +13,5 @@ import org.springframework.stereotype.Repository;
  * @author Andres
  */
 @Repository
-public interface InterfaceVehiculo extends CrudRepository<Vehiculo,Integer> {
-    
+public interface InterfaceVehiculo extends CrudRepository<Vehiculo,Integer> {  
 }
