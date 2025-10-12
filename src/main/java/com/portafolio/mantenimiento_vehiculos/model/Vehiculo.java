@@ -22,6 +22,7 @@ public class Vehiculo {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     private String nombre;
+    private String placa;
     private String descripcion;
     private LocalDate pagoSoat;
     private LocalDate pagoTecno;
@@ -43,6 +44,13 @@ public class Vehiculo {
     }
     public String getNombre(){
         return nombre;
+    }
+    
+    public void setPlaca(String placa){
+        this.placa=placa;
+    }
+    public String getPlaca(){
+        return placa;
     }
     
     public void setDescripcion(String descripcion){
