@@ -54,5 +54,10 @@ public class Controlador {
         return "form";
     }
     
+    @GetMapping("/eliminar/{id}")
+    public String eliminar(@PathVariable int id , Model model){
+        service.delete(id);
+        return "redirect:/listar";
+    }
     
 }
