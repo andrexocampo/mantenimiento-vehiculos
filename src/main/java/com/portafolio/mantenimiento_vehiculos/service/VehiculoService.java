@@ -33,7 +33,12 @@ public class VehiculoService implements InterfaceVehiculoService {
     
     @Override
     public int save(Vehiculo v){
-        throw new UnsupportedOperationException("Not supported yet.");
+        int res=0;
+        Vehiculo vehiculo=data.save(v);
+        if(!vehiculo.equals(null)){
+            res=1;
+        }
+        return res;
     }
     
     @Override

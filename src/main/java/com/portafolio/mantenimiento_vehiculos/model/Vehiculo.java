@@ -27,7 +27,7 @@ public class Vehiculo {
     private LocalDate pagoSoat;
     private LocalDate pagoTecno;
     private LocalDate cambioAceite;
-    private int tiempoCambioAceite;
+    //private int tiempoCambioAceite;
     
     public Vehiculo(){};
     
