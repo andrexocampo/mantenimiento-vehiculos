@@ -28,7 +28,7 @@ public class VehiculoService implements InterfaceVehiculoService {
     
     @Override
     public Optional<Vehiculo> listarId(int id){
-        throw new UnsupportedOperationException("Not supported yet.");
+        return data.findById(id);
     }
     
     @Override
