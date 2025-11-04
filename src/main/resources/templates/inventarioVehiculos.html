@@ -12,6 +12,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     </head>
     <body>
         
+        <!-- Barra de navegación -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
                 <a class="navbar-brand" href="#">Mi Sitio</a>
@@ -34,37 +35,35 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             </div>
         </nav>
         
-        
-        
-        
+        <!-- Inventario de vehiculos, vistos como tarjetas -->
         <div class="container mt-4">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Placa</th>
-                        <th>Descripcion</th>
-
-                    </tr>   
-                </thead>
-                <tbody>
-                    <a th:href="@{/new}" class="btn btn-primary">Nuevo</a>
-                    <tr th:each="vehiculo:${vehiculos}">
-                        <td th:text="${vehiculo.id}"></td>
-                        <td th:text="${vehiculo.nombre}"></td>
-                        <td th:text="${vehiculo.placa}"></td>
-                        <td th:text="${vehiculo.descripcion}"></td>
-
-                        <td>
+            <h1>
+                Inventario de Vehiculos
+            </h1>
+            <p>Aqui están todos los vehiculos que tienes registrados</p>
+            <div class="col-md-4 mb-3">
+                <a th:href="@{/new}" class="btn btn-primary">Nuevo</a>
+            </div>
+            <div class="row">
+                <div th:each="vehiculo:${vehiculos}" class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="card-title" th:text="${vehiculo.placa}"></h4>
+                            <h5 >Nombre:</h5>
+                            <p th:text="${vehiculo.nombre}"></p>
+                            <h5>Descripción:</h5>
+                            <p th:text="${vehiculo.descripcion}"></p>
+                            
                             <a th:href="@{/editar/}+${vehiculo.id}" class="btn btn-warning">Editar</a>
                             <a th:href="@{/eliminar/}+${vehiculo.id}" class="btn btn-danger">Eliminar</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         
+        
+
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         

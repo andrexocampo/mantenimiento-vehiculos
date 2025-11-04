@@ -52,7 +52,7 @@ public class Controlador {
     @PostMapping("/save")
     public String save(Vehiculo v, Model model){
         service.save(v);
-        return "redirect:/listar";
+        return "redirect:/vehiculos";
     }
     
     @GetMapping("/editar/{id}")
@@ -65,7 +65,7 @@ public class Controlador {
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable int id , Model model){
         service.delete(id);
-        return "redirect:/listar";
+        return "redirect:/vehiculos";
     }
     
 }
