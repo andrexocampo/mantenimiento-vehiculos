@@ -4,10 +4,16 @@
  */
 package com.portafolio.mantenimiento_vehiculos.interfaces;
 
+
+import com.portafolio.mantenimiento_vehiculos.model.Mantenimiento;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
 /**
  *
  * @author Andres
  */
-public interface InterfazMantenimiento {
+@Repository
+public interface InterfazMantenimiento extends CrudRepository<Mantenimiento,Integer> {
     
 }

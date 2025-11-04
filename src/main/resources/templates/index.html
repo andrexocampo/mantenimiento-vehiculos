@@ -21,10 +21,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" th:href="@{/listar}">Inicio</a>
+                            <a class="nav-link active" th:href="@{/vehiculos}">Vehiculos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/vehiculos}">Vehiculos</a>
+                            <a class="nav-link" th:href="@{/listar}">vehiculo por id</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Contacto</a>
@@ -39,12 +39,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             
             <div class="row">
                 <div class="col-md-4">
-                    <a th:href="@{/new}" class="btn btn-primary">Regresar</a>
+                    <a th:href="@{/vehiculos}" class="btn btn-primary">Regresar</a>
                 </div>
             </div>
             
             <div class="row">
-                <div class="col-md-8">
+                <!--<div class="col-md-8">
                     <h1>Bienvenido a mi página</h1>
                     
                     
@@ -83,7 +83,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         
                     </div>
                 </div>
-
+                -->
+                
                 <div class="col-md-4">
                     <h2>Información del vehiculo</h2>
                     <div class="bg-light p-3 rounded">
@@ -109,25 +110,30 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Placa</th>
-                        <th>Descripcion</th>
+                        <th>Descripción</th>
+                        <th>Pagado</th>
+                        <th>Fecha de pago</th>
+                        <th>Fecha de caducidad</th>
+                        <th>Costo</th>
 
                     </tr>   
                 </thead>
                 <tbody>
-                    <a th:href="@{/new}" class="btn btn-primary">Nuevo</a>
-                    <tr th:each="vehiculo:${vehiculos}">
-                        <td th:text="${vehiculo.id}"></td>
-                        <td th:text="${vehiculo.nombre}"></td>
-                        <td th:text="${vehiculo.placa}"></td>
-                        <td th:text="${vehiculo.descripcion}"></td>
-
-                        <td>
-                            <a th:href="@{/editar/}+${vehiculo.id}" class="btn btn-warning">Editar</a>
-                            <a th:href="@{/eliminar/}+${vehiculo.id}" class="btn btn-danger">Eliminar</a>
-                        </td>
-                    </tr>
+                    <a th:href="@{/nuevo_mantenimiento/}+${}" class="btn btn-primary">Nuevo</a>
+                    <tr th:each="mantenimientos:${mantenimientos}">
+                        
+                        <td th:text="${mantenimientos.mant_id}"></td>
+                        <td th:text="${mantenimientos.descripcion}"></td>
+                        <td th:text="${mantenimientos.pagado}"></td>
+                        <td th:text="${mantenimientos.fecha_de_pago}"></td>
+                        <td th:text="${mantenimientos.fecha_de_caducidad}"></td>
+                        <td th:text="${mantenimientos.costo}"></td>
+                        <!--<td>
+                            <a th:href="@{/editar/}+${mantenimiento.id}" class="btn btn-warning">Editar</a>
+                            <a th:href="@{/eliminar/}+${mantenimiento.id}" class="btn btn-danger">Eliminar</a>
+                            
+                        </td>-->
+                    <!--</tr>-->
                 </tbody>
             </table>
         </div>

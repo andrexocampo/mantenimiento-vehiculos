@@ -32,6 +32,14 @@ public class Mantenimiento {
     
     public Mantenimiento(){}
     
+    public void setMant_id(int mant_id){
+        this.mant_id=mant_id;
+    }
+    
+    public int getMant_id(){
+        return mant_id;
+    }
+    
     public void setDescripcion(String descripcion){
         this.descripcion=descripcion;
     }

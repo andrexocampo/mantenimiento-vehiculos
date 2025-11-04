@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+        
+    </head>
+    <body>
+        
+        <div class="container mt-4">
+            <div class="col-sm-6">
+                <form th:action="@{/guardar_mantenimiento}" th:object=${mantenimiento} method="POST">
+                    <div class="card">
+                        <div class="card-header">
+                            Modulo Mantenimiento
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>
+                                    ID
+                                </label>
+                                <input th:field="*{id}" type="text" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Descripcion
+                                </label>
+                                <input th:field="*{descripcion}" type="text" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Pagado
+                                </label>
+                                <input class="form-check-input" type="checkbox" role="switch" th:field="*{pagado}" />
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Fecha de pago
+                                </label>
+                                <input th:field="*{fecha_de_pago}" type="date" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Fecha de caducidad
+                                </label>
+                                <input th:field="*{fecha_de_caducidad}" type="date" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    Costo
+                                </label>
+                                <input th:field="*{costo}" type="number" class="form-control"/>
+                            </div>
+
+                        </div>
+                        <div class="card-footer">
+                            <input type="submit" value="Guardar" class="btn btn-success"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

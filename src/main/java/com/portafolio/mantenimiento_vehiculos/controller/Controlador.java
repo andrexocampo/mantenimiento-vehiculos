@@ -5,7 +5,10 @@
 package com.portafolio.mantenimiento_vehiculos.controller;
 
 import com.portafolio.mantenimiento_vehiculos.interfacesService.InterfaceVehiculoService;
+import com.portafolio.mantenimiento_vehiculos.interfacesService.InterfazMantenimientoService;
+import com.portafolio.mantenimiento_vehiculos.model.Mantenimiento;
 import com.portafolio.mantenimiento_vehiculos.model.Vehiculo;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +30,21 @@ public class Controlador {
     @Autowired
     private InterfaceVehiculoService service;
     
+    @Autowired
+    private InterfazMantenimientoService serviceM;
+    
     @GetMapping("/listar")
     public String listar(Model model){
         List<Vehiculo>vehiculos=service.listar();
         model.addAttribute("vehiculos",vehiculos);
+        return "index";
+        
+    }
+    
+    @GetMapping("/vehiculos/listar/{id}")
+    public String listarMantenimiento(Model model,@PathVariable int id){
+        List<Mantenimiento>mantenimiento=serviceM.listar();
+        model.addAttribute("mantenimientos",mantenimiento);
         return "index";
         
     }
@@ -43,6 +57,7 @@ public class Controlador {
         
     }
     
+    // CRUD Vehiculos
     @GetMapping("/new")
     public String agregar(Model model){
         model.addAttribute("vehiculo", new Vehiculo());
@@ -68,4 +83,29 @@ public class Controlador {
         return "redirect:/vehiculos";
     }
     
+    // CRUD Mantenimientos
+    @GetMapping("/nuevo_mantenimiento/{id}")
+    public String agregarMantenimiento(Model model,@PathVariable int vehiculo_id){
+        model.addAttribute("mantenimiento", new Mantenimiento());
+        return "form_mantenimientos";
+    }
+    
+    @PostMapping("/guardar_mantenimiento")
+    public String guardarMantenimiento(Mantenimiento m, Model model){
+        serviceM.save(m);
+        return "redirect:/vehiculos";
+    }
+    
+    @GetMapping("/editar_mantenimiento/{id}")
+    public String editarMantenimiento(@PathVariable int id,Model model){
+        Optional<Mantenimiento> mantenimiento=serviceM.listarId(id);
+        model.addAttribute("mantenimiento",mantenimiento);
+        return "form_mantenimientos";
+    }
+    
+    @GetMapping("/eliminar_mantenimiento/{id}")
+    public String eliminarMantenimietno(@PathVariable int id , Model model){
+        serviceM.delete(id);
+        return "redirect:/vehiculos";
+    }
 }
