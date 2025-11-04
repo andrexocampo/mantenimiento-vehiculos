@@ -35,6 +35,14 @@ public class Controlador {
         
     }
     
+    @GetMapping("/vehiculos")
+    public String listarVehiculos(Model model){
+        List<Vehiculo>vehiculos=service.listar();
+        model.addAttribute("vehiculos",vehiculos);
+        return "inventarioVehiculos";
+        
+    }
+    
     @GetMapping("/new")
     public String agregar(Model model){
         model.addAttribute("vehiculo", new Vehiculo());
