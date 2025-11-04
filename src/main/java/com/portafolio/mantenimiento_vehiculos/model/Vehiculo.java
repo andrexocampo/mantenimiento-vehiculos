@@ -4,12 +4,16 @@
  */
 package com.portafolio.mantenimiento_vehiculos.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  *
@@ -24,9 +28,11 @@ public class Vehiculo {
     private String nombre;
     private String placa;
     private String descripcion;
-    private LocalDate pagoSoat;
-    private LocalDate pagoTecno;
-    private LocalDate cambioAceite;
+    
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name="fk_vehiculo_id",referencedColumnName="id")
+    private List<Mantenimiento> mantenimientos;
+    
     //private int tiempoCambioAceite;
     
     public Vehiculo(){};
@@ -58,29 +64,5 @@ public class Vehiculo {
     }
     public String getDescripcion(){
         return descripcion;
-    }
-    
-    public void setPagoSoat(LocalDate pagoSoat){
-        this.pagoSoat=pagoSoat;
-    }
-    public LocalDate getPagoSoat(){
-        return pagoSoat;
-    }
-    
-    public void setPagoTecno(LocalDate pagoTecno){
-        this.pagoTecno=pagoTecno;
-    }
-    public LocalDate getPagoTecno(){
-        return pagoTecno;
-    }
-    
-    
-    public void setCambioAceite(LocalDate cambioAceite){
-        this.cambioAceite=cambioAceite;
-    }
-    public LocalDate getCambioAceite(){
-        return cambioAceite;
-    }
-    
-    
+    }  
 }

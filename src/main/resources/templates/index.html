@@ -61,9 +61,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                         <th>Nombre</th>
                                         <th>Placa</th>
                                         <th>Descripcion</th>
-                                        <th>Pago Soat</th>
-                                        <th>Pago tecno</th>
-                                        <th>Cambio Aceite</th>
+                                        
                                     </tr>   
                                 </thead>
                                 <tbody>
@@ -73,9 +71,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                         <td th:text="${vehiculo.nombre}"></td>
                                         <td th:text="${vehiculo.placa}"></td>
                                         <td th:text="${vehiculo.descripcion}"></td>
-                                        <td th:text="${vehiculo.pagoSoat}"></td>
-                                        <td th:text="${vehiculo.pagoTecno}"></td>
-                                        <td th:text="${vehiculo.cambioAceite}"></td>
+                                        
                                         <td>
                                             <a th:href="@{/editar/}+${vehiculo.id}" class="btn btn-warning">Editar</a>
                                             <a th:href="@{/eliminar/}+${vehiculo.id}" class="btn btn-danger">Eliminar</a>
@@ -116,9 +112,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         <th>Nombre</th>
                         <th>Placa</th>
                         <th>Descripcion</th>
-                        <th>Pago Soat</th>
-                        <th>Pago tecno</th>
-                        <th>Cambio Aceite</th>
+
                     </tr>   
                 </thead>
                 <tbody>
@@ -128,9 +122,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         <td th:text="${vehiculo.nombre}"></td>
                         <td th:text="${vehiculo.placa}"></td>
                         <td th:text="${vehiculo.descripcion}"></td>
-                        <td th:text="${vehiculo.pagoSoat}"></td>
-                        <td th:text="${vehiculo.pagoTecno}"></td>
-                        <td th:text="${vehiculo.cambioAceite}"></td>
+
                         <td>
                             <a th:href="@{/editar/}+${vehiculo.id}" class="btn btn-warning">Editar</a>
                             <a th:href="@{/eliminar/}+${vehiculo.id}" class="btn btn-danger">Eliminar</a>
