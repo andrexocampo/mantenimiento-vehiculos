@@ -44,7 +44,10 @@ public class Controlador {
     @GetMapping("/vehiculos/listar/{id}")
     public String listarMantenimiento(Model model,@PathVariable int id){
         List<Mantenimiento>mantenimiento=serviceM.listar();
+        Optional<Vehiculo> vehiculo_opcional=service.listarId(id);
+        Vehiculo vehiculo=vehiculo_opcional.get();
         model.addAttribute("mantenimientos",mantenimiento);
+        model.addAttribute("vehiculo", vehiculo);
         return "index";
         
     }
@@ -84,8 +87,8 @@ public class Controlador {
     }
     
     // CRUD Mantenimientos
-    @GetMapping("/nuevo_mantenimiento/{id}")
-    public String agregarMantenimiento(Model model,@PathVariable int vehiculo_id){
+    @GetMapping("/nuevo_mantenimiento")
+    public String agregarMantenimiento(Model model){
         model.addAttribute("mantenimiento", new Mantenimiento());
         return "form_mantenimientos";
     }

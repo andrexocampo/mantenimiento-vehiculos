@@ -90,11 +90,19 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <div class="bg-light p-3 rounded">
                         
                         <p>Contenido adicional aquí...</p>
-                        <ul class="list-group">
+                        <ul class="list-group" >
                             <li class="list-group-item">Placa: </li>
+                            <div th:object="${vehiculo}">
+                                <p th:text="*{nombre}"></p>
+                            </div>
                             <li class="list-group-item">Enlace 2</li>
                             <li class="list-group-item">Enlace 3</li>
                         </ul>
+                        <!--<tr th:each="vehiculo : ${vehiculo}">
+                            <td th:text="${vehiculo.nombre}"></td>
+                            <td th:text="${vehiculo.id}"></td>
+                            <td th:text="${vehiculo.id}"></td>
+                        </tr>-->
                     </div>
                 </div>
             </div>
@@ -119,7 +127,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     </tr>   
                 </thead>
                 <tbody>
-                    <a th:href="@{/nuevo_mantenimiento/}+${}" class="btn btn-primary">Nuevo</a>
+                    <a th:href="@{/nuevo_mantenimiento}" class="btn btn-primary">Nuevo</a>
                     <tr th:each="mantenimientos:${mantenimientos}">
                         
                         <td th:text="${mantenimientos.mant_id}"></td>

@@ -58,7 +58,7 @@ public class Mantenimiento {
     public void setFecha_de_pago(LocalDate fecha_de_pago){
         this.fecha_de_pago=fecha_de_pago;
     }
-    public LocalDate fecha_de_pago(){
+    public LocalDate getFecha_de_pago(){
         return fecha_de_pago;
     }
     
