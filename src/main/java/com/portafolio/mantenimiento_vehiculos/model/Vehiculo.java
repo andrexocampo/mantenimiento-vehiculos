@@ -65,4 +65,12 @@ public class Vehiculo {
     public String getDescripcion(){
         return descripcion;
     }  
+    
+    public void setMantenimientos(List<Mantenimiento> mantenimientos){
+        this.mantenimientos=mantenimientos;
+    }
+    
+    public List<Mantenimiento> getMantenimientos(){
+        return mantenimientos;
+    }
 }

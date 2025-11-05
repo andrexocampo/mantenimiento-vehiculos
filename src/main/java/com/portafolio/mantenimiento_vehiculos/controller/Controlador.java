@@ -43,9 +43,15 @@ public class Controlador {
     
     @GetMapping("/vehiculos/listar/{id}")
     public String listarMantenimiento(Model model,@PathVariable int id){
+        // Obtener todos los mantenimientos
         List<Mantenimiento>mantenimiento=serviceM.listar();
+        // Obtener los datos del vehiculo con la respectiva id
         Optional<Vehiculo> vehiculo_opcional=service.listarId(id);
         Vehiculo vehiculo=vehiculo_opcional.get();
+        // Obtener los mantenimientos del vehiculo con dicha id
+        List<Mantenimiento>mantenimientosVehiculo=service.listarMantenimientos(id);
+        
+        model.addAttribute("mantenimientosVehiculo",mantenimientosVehiculo);
         model.addAttribute("mantenimientos",mantenimiento);
         model.addAttribute("vehiculo", vehiculo);
         return "index";

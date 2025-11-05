@@ -8,6 +8,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 
@@ -28,6 +30,10 @@ public class Mantenimiento {
     private LocalDate fecha_de_pago;
     private LocalDate fecha_de_caducidad;
     private float costo;
+    
+    //@ManyToOne
+    //@JoinColumn(name="fk_vehiculo_id")
+    //private Vehiculo vehiculo;
     
     
     public Mantenimiento(){}
@@ -77,4 +83,11 @@ public class Mantenimiento {
         return costo;
     }
     
+    /*public void setVehiculo(Vehiculo vehiculo){
+        this.vehiculo=vehiculo;
+    }
+    
+    public Vehiculo getVehiculo(){
+        return vehiculo;
+    }*/
 }

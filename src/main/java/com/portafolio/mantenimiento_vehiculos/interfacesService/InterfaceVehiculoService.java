@@ -4,6 +4,7 @@
  */
 package com.portafolio.mantenimiento_vehiculos.interfacesService;
 
+import com.portafolio.mantenimiento_vehiculos.model.Mantenimiento;
 import com.portafolio.mantenimiento_vehiculos.model.Vehiculo;
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +18,5 @@ public interface InterfaceVehiculoService {
     public Optional<Vehiculo> listarId(int id);
     public void delete(int id);
     public int save(Vehiculo v);
+    public List<Mantenimiento> listarMantenimientos(int id);
 }

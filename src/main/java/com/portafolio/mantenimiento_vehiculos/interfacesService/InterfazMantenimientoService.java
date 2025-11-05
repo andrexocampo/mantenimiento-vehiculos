@@ -17,4 +17,5 @@ public interface InterfazMantenimientoService {
     public Optional<Mantenimiento> listarId(int id);
     public void delete(int id);
     public int save(Mantenimiento m);
+    //public List<Mantenimiento> listarMantenimientosVehiculo(int idVehiculo);
 }
