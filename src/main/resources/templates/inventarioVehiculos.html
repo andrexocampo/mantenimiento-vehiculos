@@ -15,7 +15,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <!-- Barra de navegación -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="#">Mi Sitio</a>
+                <a class="navbar-brand" href="#">Gestor de Mantenimiento</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -25,10 +25,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                             <a class="nav-link active" th:href="@{/vehiculos}">Vehiculos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/listar}">vehiculo por id</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Contacto</a>
+                            <a class="nav-link" th:href="@{/listar}">Estadisticas</a>
                         </li>
                     </ul>
                 </div>
@@ -56,7 +53,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                             
                             <a th:href="@{/editar/}+${vehiculo.id}" class="btn btn-warning">Editar</a>
                             <a th:href="@{/eliminar/}+${vehiculo.id}" class="btn btn-danger">Eliminar</a>
-                            <a th:href="@{/vehiculos/listar/}+${vehiculo.id}" class="btn btn-danger">Ver mas</a>
+                            <a th:href="@{/vehiculos/listar/}+${vehiculo.id}" class="btn btn-primary">Ver mas</a>
                         </div>
                     </div>
                 </div>

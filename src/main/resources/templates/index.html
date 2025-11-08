@@ -15,7 +15,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <!-- Barra de navegación -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="#">Mi Sitio</a>
+                <a class="navbar-brand" href="#">Gestor de Mantenimiento</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -24,11 +24,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                         <li class="nav-item">
                             <a class="nav-link active" th:href="@{/vehiculos}">Vehiculos</a>
                         </li>
-                        <li class="nav-item">
+                        <!--<li class="nav-item">
                             <a class="nav-link" th:href="@{/listar}">vehiculo por id</a>
-                        </li>
+                        </li>-->
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Contacto</a>
+                            <a class="nav-link" href="#">Estadisticas</a>
                         </li>
                     </ul>
                 </div>
@@ -48,7 +48,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                 
                 <!-- Tabla de mantenimientos por vehiculo -->
                 <div class="col-md-8">
-                    <h1>Bienvenido a mi página</h1>
+                    <h2>Mantenimientos del vehiculo</h2>
                     
                     
                     
@@ -69,7 +69,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                     </tr>   
                                 </thead>    
                                 <tbody>
-                                    <a th:href="@{/nuevo_mantenimiento}" class="btn btn-primary">Nuevo</a>
+                                    <a th:href="@{/nuevo_mantenimiento}" class="btn btn-primary">Agregar Mantenimietno</a>
                                     <tr th:each="mantenimientosVehiculo:${mantenimientosVehiculo}">
 
                                         <td th:text="${mantenimientosVehiculo.mant_id}"></td>
@@ -96,14 +96,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     <h2>Información del vehiculo</h2>
                     <div class="bg-light p-3 rounded">
                         
-                        <p>Contenido adicional aquí...</p>
                         <ul class="list-group" >
-                            <li class="list-group-item">Placa: </li>
+                            <!--<li class="list-group-item">Placa: </li>-->
+                            
                             <div th:object="${vehiculo}">
-                                <p th:text="*{nombre}"></p>
+                                <h5> Nombre:</h5>
+                                <p th:text="*{nombre}"> nombre</p>
+                                <h5> Placa</h5>
+                                <p th:text="*{placa}"></p>
+                                <h5> Descripción</h5>
+                                <p th:text="*{descripcion}"> </p>
                             </div>
-                            <li class="list-group-item">Enlace 2</li>
-                            <li class="list-group-item">Enlace 3</li>
                         </ul>
                         <!--<tr th:each="vehiculo : ${vehiculo}">
                             <td th:text="${vehiculo.nombre}"></td>
@@ -118,6 +121,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         
         <!-- Tabla general de mantenimientos -->
         <div class="container mt-4">
+            <h3>Lista general de mantenimiento</h3>
+            <p>Aqui se muestran los mantenimientos de todos los vehiculos</p>
             <table class="table">
                 <thead>
                     <tr>
