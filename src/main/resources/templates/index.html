@@ -69,7 +69,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                     </tr>   
                                 </thead>    
                                 <tbody>
-                                    <a th:href="@{/nuevo_mantenimiento}" class="btn btn-primary">Agregar Mantenimietno</a>
+                                    
+                                    <a th:href="@{/nuevo_mantenimiento/{id}(id=${id})}" class="btn btn-primary">Agregar Mantenimietno</a>
                                     <tr th:each="mantenimientosVehiculo:${mantenimientosVehiculo}">
 
                                         <td th:text="${mantenimientosVehiculo.mant_id}"></td>

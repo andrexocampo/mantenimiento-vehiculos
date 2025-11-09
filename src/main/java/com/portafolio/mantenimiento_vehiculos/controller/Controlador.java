@@ -93,16 +93,23 @@ public class Controlador {
     }
     
     // CRUD Mantenimientos
-    @GetMapping("/nuevo_mantenimiento")
-    public String agregarMantenimiento(Model model){
+    @GetMapping("/nuevo_mantenimiento/{id}")
+    public String agregarMantenimiento(@PathVariable int id ,Model model){
+        Optional<Vehiculo> vehiculo_opcional=service.listarId(id);
+        Vehiculo vehiculo=vehiculo_opcional.get();
+        model.addAttribute("vehiculo", vehiculo);
         model.addAttribute("mantenimiento", new Mantenimiento());
         return "form_mantenimientos";
     }
     
-    @PostMapping("/guardar_mantenimiento")
-    public String guardarMantenimiento(Mantenimiento m, Model model){
+    @PostMapping("/vehiculos/listar/{id}/guardar_mantenimiento")
+    public String guardarMantenimiento(Mantenimiento m, Model model, @PathVariable int id){
+        model.addAttribute("id", id);
+        Optional<Vehiculo> vehiculo_opcional=service.listarId(id);
+        Vehiculo vehiculo=vehiculo_opcional.get();
+        m.setVehiculo(vehiculo);
         serviceM.save(m);
-        return "redirect:/vehiculos";
+        return "redirect:/vehiculos/listar/{id}";
     }
     
     @GetMapping("/editar_mantenimiento/{id}")

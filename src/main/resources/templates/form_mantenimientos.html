@@ -15,17 +15,17 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         
         <div class="container mt-4">
             <div class="col-sm-6">
-                <form th:action="@{/guardar_mantenimiento}" th:object=${mantenimiento} method="POST">
+                <form th:action="@{/vehiculos/listar/{id}/guardar_mantenimiento(id=${id})}" th:object=${mantenimiento} method="POST">
                     <div class="card">
                         <div class="card-header">
                             Modulo Mantenimiento
                         </div>
+
                         <div class="card-body">
+                            <label> Creando mantenimiento para el vehiculo:</label>
+                            <label th:text="${vehiculo.nombre}"></label>                            
                             <div class="form-group">
-                                <label>
-                                    ID
-                                </label>
-                                <input th:field="*{mant_id}" type="text" class="form-control"/>
+                                <input th:field="*{mant_id}" type="hidden" class="form-control"/>
                             </div>
                             <div class="form-group">
                                 <label>
@@ -55,7 +55,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                 <label>
                                     Costo
                                 </label>
-                                <input th:field="*{costo}" type="number" class="form-control"/>
+                                <input th:field="*{costo}" type="text" class="form-control"/>
                             </div>
                             <!--<div class="form-group">
                                 <label>
@@ -63,6 +63,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                 </label>
                                 <input th:field="*{fk_vehiculo_id}" type="number" class="form-control"/>
                             </div>-->
+                            
+                            
+                            <!--<input th:field="*{fk_vehiculo_id}" type="hidden"  class="form-control"/>-->
 
                         </div>
                         <div class="card-footer">

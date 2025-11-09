@@ -31,9 +31,9 @@ public class Mantenimiento {
     private LocalDate fecha_de_caducidad;
     private float costo;
     
-    //@ManyToOne
-    //@JoinColumn(name="fk_vehiculo_id")
-    //private Vehiculo vehiculo;
+    @ManyToOne
+    @JoinColumn(name="fk_vehiculo_id")
+    private Vehiculo vehiculo;
     
     
     public Mantenimiento(){}
@@ -83,11 +83,11 @@ public class Mantenimiento {
         return costo;
     }
     
-    /*public void setVehiculo(Vehiculo vehiculo){
+    public void setVehiculo(Vehiculo vehiculo){
         this.vehiculo=vehiculo;
     }
     
     public Vehiculo getVehiculo(){
         return vehiculo;
-    }*/
+    }
 }

@@ -66,6 +66,7 @@ public class Vehiculo {
         return descripcion;
     }  
     
+    /*
     public void setMantenimientos(List<Mantenimiento> mantenimientos){
         this.mantenimientos=mantenimientos;
     }
@@ -73,4 +74,5 @@ public class Vehiculo {
     public List<Mantenimiento> getMantenimientos(){
         return mantenimientos;
     }
+    */
 }
