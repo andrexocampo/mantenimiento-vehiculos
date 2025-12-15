@@ -43,6 +43,7 @@ public class SettingsController {
             // Update only notification settings and email
             currentUser.setEmail(updatedUser.getEmail());
             currentUser.setEmailNotificationsEnabled(updatedUser.isEmailNotificationsEnabled());
+            currentUser.setNotifyOneMonthBefore(updatedUser.isNotifyOneMonthBefore());
             currentUser.setNotifyOneWeekBefore(updatedUser.isNotifyOneWeekBefore());
             currentUser.setNotifyOneDayBefore(updatedUser.isNotifyOneDayBefore());
             
@@ -53,4 +54,5 @@ public class SettingsController {
         }
     }
 }
+
 
