@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.portafolio.mantenimiento_vehiculos.interfaces;
 
 import com.portafolio.mantenimiento_vehiculos.model.Mantenimiento;
@@ -13,12 +9,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
- *
+ * Repository interface for Vehicle entity
  * @author Andres
  */
 @Repository
 public interface InterfaceVehiculo extends CrudRepository<Vehiculo,Integer> {  
     
-    @Query("SELECT v.mantenimientos FROM Vehiculo v WHERE v.id = :id")
+    @Query("SELECT v.maintenances FROM Vehiculo v WHERE v.id = :id")
     List<Mantenimiento> findMantenimientosByVehiculoId(@Param("id") int id);
 }

@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.portafolio.mantenimiento_vehiculos.controller;
 
 import com.portafolio.mantenimiento_vehiculos.interfacesService.InterfaceVehiculoService;
 import com.portafolio.mantenimiento_vehiculos.interfacesService.InterfazMantenimientoService;
 import com.portafolio.mantenimiento_vehiculos.model.Mantenimiento;
 import com.portafolio.mantenimiento_vehiculos.model.Vehiculo;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- *
+ * Main controller for handling HTTP requests
  * @author Andres
  */
 @Controller
@@ -35,38 +30,35 @@ public class Controlador {
     
     @GetMapping("/listar")
     public String listar(Model model){
-        List<Vehiculo>vehiculos=service.listar();
-        model.addAttribute("vehiculos",vehiculos);
+        List<Vehiculo> vehicles = service.listar();
+        model.addAttribute("vehiculos", vehicles);
         return "index";
-        
     }
     
     @GetMapping("/vehiculos/listar/{id}")
-    public String listarMantenimiento(Model model,@PathVariable int id){
-        // Obtener todos los mantenimientos
-        List<Mantenimiento>mantenimiento=serviceM.listar();
-        // Obtener los datos del vehiculo con la respectiva id
-        Optional<Vehiculo> vehiculo_opcional=service.listarId(id);
-        Vehiculo vehiculo=vehiculo_opcional.get();
-        // Obtener los mantenimientos del vehiculo con dicha id
-        List<Mantenimiento>mantenimientosVehiculo=service.listarMantenimientos(id);
+    public String listarMantenimiento(Model model, @PathVariable int id){
+        // Get all maintenance records
+        List<Mantenimiento> allMaintenances = serviceM.listar();
+        // Get vehicle data by id
+        Optional<Vehiculo> vehicleOptional = service.listarId(id);
+        Vehiculo vehicle = vehicleOptional.get();
+        // Get maintenance records for this vehicle
+        List<Mantenimiento> vehicleMaintenances = service.listarMantenimientos(id);
         
-        model.addAttribute("mantenimientosVehiculo",mantenimientosVehiculo);
-        model.addAttribute("mantenimientos",mantenimiento);
-        model.addAttribute("vehiculo", vehiculo);
+        model.addAttribute("mantenimientosVehiculo", vehicleMaintenances);
+        model.addAttribute("mantenimientos", allMaintenances);
+        model.addAttribute("vehiculo", vehicle);
         return "index";
-        
     }
     
     @GetMapping("/vehiculos")
     public String listarVehiculos(Model model){
-        List<Vehiculo>vehiculos=service.listar();
-        model.addAttribute("vehiculos",vehiculos);
+        List<Vehiculo> vehicles = service.listar();
+        model.addAttribute("vehiculos", vehicles);
         return "inventarioVehiculos";
-        
     }
     
-    // CRUD Vehiculos
+    // CRUD Vehicles
     @GetMapping("/new")
     public String agregar(Model model){
         model.addAttribute("vehiculo", new Vehiculo());
@@ -80,24 +72,24 @@ public class Controlador {
     }
     
     @GetMapping("/editar/{id}")
-    public String editar(@PathVariable int id,Model model){
-        Optional<Vehiculo> vehiculo=service.listarId(id);
-        model.addAttribute("vehiculo",vehiculo);
+    public String editar(@PathVariable int id, Model model){
+        Optional<Vehiculo> vehicle = service.listarId(id);
+        model.addAttribute("vehiculo", vehicle);
         return "form";
     }
     
     @GetMapping("/eliminar/{id}")
-    public String eliminar(@PathVariable int id , Model model){
+    public String eliminar(@PathVariable int id, Model model){
         service.delete(id);
         return "redirect:/vehiculos";
     }
     
-    // CRUD Mantenimientos
+    // CRUD Maintenance
     @GetMapping("/nuevo_mantenimiento/{id}")
-    public String agregarMantenimiento(@PathVariable int id ,Model model){
-        Optional<Vehiculo> vehiculo_opcional=service.listarId(id);
-        Vehiculo vehiculo=vehiculo_opcional.get();
-        model.addAttribute("vehiculo", vehiculo);
+    public String agregarMantenimiento(@PathVariable int id, Model model){
+        Optional<Vehiculo> vehicleOptional = service.listarId(id);
+        Vehiculo vehicle = vehicleOptional.get();
+        model.addAttribute("vehiculo", vehicle);
         model.addAttribute("mantenimiento", new Mantenimiento());
         return "form_mantenimientos";
     }
@@ -105,22 +97,22 @@ public class Controlador {
     @PostMapping("/vehiculos/listar/{id}/guardar_mantenimiento")
     public String guardarMantenimiento(Mantenimiento m, Model model, @PathVariable int id){
         model.addAttribute("id", id);
-        Optional<Vehiculo> vehiculo_opcional=service.listarId(id);
-        Vehiculo vehiculo=vehiculo_opcional.get();
-        m.setVehiculo(vehiculo);
+        Optional<Vehiculo> vehicleOptional = service.listarId(id);
+        Vehiculo vehicle = vehicleOptional.get();
+        m.setVehicle(vehicle);
         serviceM.save(m);
         return "redirect:/vehiculos/listar/{id}";
     }
     
     @GetMapping("/editar_mantenimiento/{id}")
-    public String editarMantenimiento(@PathVariable int id,Model model){
-        Optional<Mantenimiento> mantenimiento=serviceM.listarId(id);
-        model.addAttribute("mantenimiento",mantenimiento);
+    public String editarMantenimiento(@PathVariable int id, Model model){
+        Optional<Mantenimiento> maintenance = serviceM.listarId(id);
+        model.addAttribute("mantenimiento", maintenance);
         return "form_mantenimientos";
     }
     
     @GetMapping("/eliminar_mantenimiento/{id}")
-    public String eliminarMantenimietno(@PathVariable int id , Model model){
+    public String eliminarMantenimiento(@PathVariable int id, Model model){
         serviceM.delete(id);
         return "redirect:/vehiculos";
     }

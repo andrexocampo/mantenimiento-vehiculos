@@ -1,34 +1,27 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Aplicación mantenimiento de vehiculos</title>
+        <title>Vehicle Maintenance Application</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         
-        <!-- Barra de navegación -->
+        <!-- Navigation bar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="#">Gestor de Mantenimiento</a>
+                <a class="navbar-brand" href="#">Maintenance Manager</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" th:href="@{/vehiculos}">Vehiculos</a>
+                            <a class="nav-link active" th:href="@{/vehiculos}">Vehicles</a>
                         </li>
-                        <!--<li class="nav-item">
-                            <a class="nav-link" th:href="@{/listar}">vehiculo por id</a>
-                        </li>-->
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Estadisticas</a>
+                            <a class="nav-link" href="#">Statistics</a>
                         </li>
                     </ul>
                 </div>
@@ -40,125 +33,104 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
             
             <div class="row">    
                 <div class="col-md-4">
-                    <a th:href="@{/vehiculos}" class="btn btn-primary">Regresar</a>
+                    <a th:href="@{/vehiculos}" class="btn btn-primary">Back</a>
                 </div>
             </div>
             
             <div class="row">
                 
-                <!-- Tabla de mantenimientos por vehiculo -->
+                <!-- Vehicle maintenance table -->
                 <div class="col-md-8">
-                    <h2>Mantenimientos del vehiculo</h2>
-                    
-                    
+                    <h2>Vehicle Maintenance Records</h2>
                     
                     <div class="card mb-4">
-                        
-                    
                         <div class="container mt-4">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Descripción</th>
-                                        <th>Pagado</th>
-                                        <th>Fecha de pago</th>
-                                        <th>Fecha de caducidad</th>
-                                        <th>Costo</th>
-
+                                        <th>Description</th>
+                                        <th>Paid</th>
+                                        <th>Payment Date</th>
+                                        <th>Expiration Date</th>
+                                        <th>Cost</th>
                                     </tr>   
                                 </thead>    
                                 <tbody>
-                                    
-                                    <a th:href="@{/nuevo_mantenimiento/{id}(id=${id})}" class="btn btn-primary">Agregar Mantenimietno</a>
+                                    <tr>
+                                        <td colspan="6">
+                                            <a th:href="@{/nuevo_mantenimiento/{id}(id=${vehiculo.id})}" class="btn btn-primary">Add Maintenance</a>
+                                        </td>
+                                    </tr>
                                     <tr th:each="mantenimientosVehiculo:${mantenimientosVehiculo}">
-
-                                        <td th:text="${mantenimientosVehiculo.mant_id}"></td>
-                                        <td th:text="${mantenimientosVehiculo.descripcion}"></td>
-                                        <td th:text="${mantenimientosVehiculo.pagado}"></td>
-                                        <td th:text="${mantenimientosVehiculo.fecha_de_pago}"></td>
-                                        <td th:text="${mantenimientosVehiculo.fecha_de_caducidad}"></td>
-                                        <td th:text="${mantenimientosVehiculo.costo}"></td>
-                                        <!--<td>
-                                            <a th:href="@{/editar/}+${mantenimiento.id}" class="btn btn-warning">Editar</a>
-                                            <a th:href="@{/eliminar/}+${mantenimiento.id}" class="btn btn-danger">Eliminar</a>
-
-                                        </td>-->
-                                    <!--</tr>-->
+                                        <td th:text="${mantenimientosVehiculo.id}"></td>
+                                        <td th:text="${mantenimientosVehiculo.description}"></td>
+                                        <td th:text="${mantenimientosVehiculo.paid}"></td>
+                                        <td th:text="${mantenimientosVehiculo.paymentDate}"></td>
+                                        <td th:text="${mantenimientosVehiculo.expirationDate}"></td>
+                                        <td th:text="${mantenimientosVehiculo.cost}"></td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>    
-                        
                     </div>
                 </div>
                 
-                <!-- Detalles del vehiculo -->
+                <!-- Vehicle details -->
                 <div class="col-md-4">
-                    <h2>Información del vehiculo</h2>
+                    <h2>Vehicle Information</h2>
                     <div class="bg-light p-3 rounded">
-                        
-                        <ul class="list-group" >
-                            <!--<li class="list-group-item">Placa: </li>-->
-                            
+                        <ul class="list-group">
                             <div th:object="${vehiculo}">
-                                <h5> Nombre:</h5>
-                                <p th:text="*{nombre}"> nombre</p>
-                                <h5> Placa</h5>
-                                <p th:text="*{placa}"></p>
-                                <h5> Descripción</h5>
-                                <p th:text="*{descripcion}"> </p>
+                                <h5>Name:</h5>
+                                <p th:text="*{name}"></p>
+                                <h5>License Plate:</h5>
+                                <p th:text="*{licensePlate}"></p>
+                                <h5>Description:</h5>
+                                <p th:text="*{description}"></p>
                             </div>
                         </ul>
-                        <!--<tr th:each="vehiculo : ${vehiculo}">
-                            <td th:text="${vehiculo.nombre}"></td>
-                            <td th:text="${vehiculo.id}"></td>
-                            <td th:text="${vehiculo.id}"></td>
-                        </tr>-->
                     </div>
                 </div>
             </div>
         </div>
         
         
-        <!-- Tabla general de mantenimientos -->
+        <!-- General maintenance table -->
         <div class="container mt-4">
-            <h3>Lista general de mantenimiento</h3>
-            <p>Aqui se muestran los mantenimientos de todos los vehiculos</p>
+            <h3>General Maintenance List</h3>
+            <p>Here are all maintenance records for all vehicles</p>
             <table class="table">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Descripción</th>
-                        <th>Pagado</th>
-                        <th>Fecha de pago</th>
-                        <th>Fecha de caducidad</th>
-                        <th>Costo</th>
-
+                        <th>Description</th>
+                        <th>Paid</th>
+                        <th>Payment Date</th>
+                        <th>Expiration Date</th>
+                        <th>Cost</th>
                     </tr>   
                 </thead>
                 <tbody>
-                    <a th:href="@{/nuevo_mantenimiento}" class="btn btn-primary">Nuevo</a>
+                    <tr>
+                        <td colspan="6">
+                            <a th:href="@{/nuevo_mantenimiento/{id}(id=${vehiculo.id})}" class="btn btn-primary">New</a>
+                        </td>
+                    </tr>
                     <tr th:each="mantenimientos:${mantenimientos}">
-                        
-                        <td th:text="${mantenimientos.mant_id}"></td>
-                        <td th:text="${mantenimientos.descripcion}"></td>
-                        <td th:text="${mantenimientos.pagado}"></td>
-                        <td th:text="${mantenimientos.fecha_de_pago}"></td>
-                        <td th:text="${mantenimientos.fecha_de_caducidad}"></td>
-                        <td th:text="${mantenimientos.costo}"></td>
-                        <!--<td>
-                            <a th:href="@{/editar/}+${mantenimiento.id}" class="btn btn-warning">Editar</a>
-                            <a th:href="@{/eliminar/}+${mantenimiento.id}" class="btn btn-danger">Eliminar</a>
-                            
-                        </td>-->
-                    <!--</tr>-->
+                        <td th:text="${mantenimientos.id}"></td>
+                        <td th:text="${mantenimientos.description}"></td>
+                        <td th:text="${mantenimientos.paid}"></td>
+                        <td th:text="${mantenimientos.paymentDate}"></td>
+                        <td th:text="${mantenimientos.expirationDate}"></td>
+                        <td th:text="${mantenimientos.cost}"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
         
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-        
         
     </body>
 </html>

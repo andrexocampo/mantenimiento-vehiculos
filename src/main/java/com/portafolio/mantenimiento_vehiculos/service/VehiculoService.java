@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.portafolio.mantenimiento_vehiculos.service;
 
 import com.portafolio.mantenimiento_vehiculos.interfaces.InterfaceVehiculo;
@@ -14,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
+ * Service class for Vehicle operations
  * @author Andres
  */
 @Service
@@ -35,8 +31,8 @@ public class VehiculoService implements InterfaceVehiculoService {
     @Override
     public int save(Vehiculo v){
         int res=0;
-        Vehiculo vehiculo=data.save(v);
-        if(!vehiculo.equals(null)){
+        Vehiculo vehicle=data.save(v);
+        if(!vehicle.equals(null)){
             res=1;
         }
         return res;

@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.portafolio.mantenimiento_vehiculos.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,9 +10,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 
-
 /**
- *
+ * Maintenance entity representing a maintenance record for a vehicle
  * @author Andres
  */
 @Entity
@@ -24,70 +20,83 @@ public class Mantenimiento {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int mant_id;
-    private String descripcion;
-    private boolean pagado;
-    private LocalDate fecha_de_pago;
-    private LocalDate fecha_de_caducidad;
-    private float costo;
+    @Column(name="mant_id")
+    private int id;
+    
+    @Column(name="descripcion")
+    private String description;
+    
+    @Column(name="pagado")
+    private boolean paid;
+    
+    @Column(name="fecha_de_pago")
+    private LocalDate paymentDate;
+    
+    @Column(name="fecha_de_caducidad")
+    private LocalDate expirationDate;
+    
+    @Column(name="costo")
+    private float cost;
     
     @ManyToOne
     @JoinColumn(name="fk_vehiculo_id")
-    private Vehiculo vehiculo;
-    
+    private Vehiculo vehicle;
     
     public Mantenimiento(){}
     
-    public void setMant_id(int mant_id){
-        this.mant_id=mant_id;
+    public void setId(int id){
+        this.id=id;
     }
     
-    public int getMant_id(){
-        return mant_id;
+    public int getId(){
+        return id;
     }
     
-    public void setDescripcion(String descripcion){
-        this.descripcion=descripcion;
-    }
-    public String getDescripcion(){
-        return descripcion;
-    }  
-    
-    public void setPagado(boolean pagado){
-        this.pagado=pagado;
+    public void setDescription(String description){
+        this.description=description;
     }
     
-    public boolean getPagado(){
-        return pagado;
+    public String getDescription(){
+        return description;
     }
     
-    public void setFecha_de_pago(LocalDate fecha_de_pago){
-        this.fecha_de_pago=fecha_de_pago;
-    }
-    public LocalDate getFecha_de_pago(){
-        return fecha_de_pago;
+    public void setPaid(boolean paid){
+        this.paid=paid;
     }
     
-    public void setFecha_de_caducidad(LocalDate fecha_de_caducidad){
-        this.fecha_de_caducidad=fecha_de_caducidad;
-    }
-    public LocalDate getFecha_de_caducidad(){
-        return fecha_de_caducidad;
+    public boolean isPaid(){
+        return paid;
     }
     
-    
-    public void setCosto(float costo){
-        this.costo=costo;
-    }
-    public float getCosto(){
-        return costo;
+    public void setPaymentDate(LocalDate paymentDate){
+        this.paymentDate=paymentDate;
     }
     
-    public void setVehiculo(Vehiculo vehiculo){
-        this.vehiculo=vehiculo;
+    public LocalDate getPaymentDate(){
+        return paymentDate;
     }
     
-    public Vehiculo getVehiculo(){
-        return vehiculo;
+    public void setExpirationDate(LocalDate expirationDate){
+        this.expirationDate=expirationDate;
+    }
+    
+    public LocalDate getExpirationDate(){
+        return expirationDate;
+    }
+    
+    public void setCost(float cost){
+        this.cost=cost;
+    }
+    
+    public float getCost(){
+        return cost;
+    }
+    
+    public void setVehicle(Vehiculo vehicle){
+        this.vehicle=vehicle;
+    }
+    
+    public Vehiculo getVehicle(){
+        return vehicle;
     }
 }
