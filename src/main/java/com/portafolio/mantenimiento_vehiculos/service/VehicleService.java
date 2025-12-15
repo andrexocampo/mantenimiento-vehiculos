@@ -1,10 +1,10 @@
 package com.portafolio.mantenimiento_vehiculos.service;
 
-import com.portafolio.mantenimiento_vehiculos.interfaces.InterfaceVehiculo;
-import com.portafolio.mantenimiento_vehiculos.interfacesService.InterfaceVehiculoService;
-import com.portafolio.mantenimiento_vehiculos.model.Mantenimiento;
+import com.portafolio.mantenimiento_vehiculos.interfaces.VehicleRepository;
+import com.portafolio.mantenimiento_vehiculos.interfacesService.VehicleServiceInterface;
+import com.portafolio.mantenimiento_vehiculos.model.Maintenance;
 import com.portafolio.mantenimiento_vehiculos.model.User;
-import com.portafolio.mantenimiento_vehiculos.model.Vehiculo;
+import com.portafolio.mantenimiento_vehiculos.model.Vehicle;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +15,22 @@ import org.springframework.stereotype.Service;
  * @author Andres
  */
 @Service
-public class VehiculoService implements InterfaceVehiculoService {
+public class VehicleService implements VehicleServiceInterface {
     @Autowired
-    private InterfaceVehiculo data;
+    private VehicleRepository data;
     
     @Autowired
     private SecurityService securityService;
     
     @Override
-    public List<Vehiculo> listar(){
+    public List<Vehicle> listar(){
         User currentUser = securityService.getCurrentUser();
         return data.findByUser(currentUser);
     }
     
     @Override
-    public Optional<Vehiculo> listarId(int id){
-        Optional<Vehiculo> vehicle = data.findById(id);
+    public Optional<Vehicle> listarId(int id){
+        Optional<Vehicle> vehicle = data.findById(id);
         if (vehicle.isPresent()) {
             User vehicleUser = vehicle.get().getUser();
             // If vehicle has no user, return empty
@@ -47,14 +47,14 @@ public class VehiculoService implements InterfaceVehiculoService {
     }
     
     @Override
-    public int save(Vehiculo v){
+    public int save(Vehicle v){
         int res=0;
         // If vehicle doesn't have a user, assign current user
         if (v.getUser() == null) {
             User currentUser = securityService.getCurrentUser();
             v.setUser(currentUser);
         }
-        Vehiculo vehicle=data.save(v);
+        Vehicle vehicle=data.save(v);
         if(!vehicle.equals(null)){
             res=1;
         }
@@ -63,7 +63,7 @@ public class VehiculoService implements InterfaceVehiculoService {
     
     @Override
     public void delete(int id){
-        Optional<Vehiculo> vehicle = data.findById(id);
+        Optional<Vehicle> vehicle = data.findById(id);
         if (vehicle.isPresent()) {
             User vehicleUser = vehicle.get().getUser();
             // If vehicle has no user, don't allow deletion
@@ -79,8 +79,8 @@ public class VehiculoService implements InterfaceVehiculoService {
     }
     
     @Override
-    public List<Mantenimiento> listarMantenimientos(int id){
-        Optional<Vehiculo> vehicle = data.findById(id);
+    public List<Maintenance> listarMantenimientos(int id){
+        Optional<Vehicle> vehicle = data.findById(id);
         if (vehicle.isPresent()) {
             User vehicleUser = vehicle.get().getUser();
             // If vehicle has no user, return empty list
@@ -96,3 +96,4 @@ public class VehiculoService implements InterfaceVehiculoService {
         return List.of();
     }
 }
+

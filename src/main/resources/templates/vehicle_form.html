@@ -10,7 +10,8 @@
         
         <div class="container mt-4">
             <div class="col-sm-6">
-                <form th:action="@{/save}" th:object="${vehiculo}" method="POST">
+                <form th:action="${vehiculo.id != null and vehiculo.id > 0 ? '/vehicles/' + vehiculo.id : '/vehicles'}" 
+                      th:object="${vehiculo}" method="POST">
                     <div class="card">
                         <div class="card-header">
                             Vehicle Module
@@ -43,7 +44,7 @@
                         </div>
                         <div class="card-footer">
                             <input type="submit" value="Save" class="btn btn-success"/>
-                            <a th:href="@{/vehiculos}" class="btn btn-secondary">Cancel</a>
+                            <a th:href="@{/vehicles}" class="btn btn-secondary">Cancel</a>
                         </div>
                     </div>
                 </form>
@@ -51,3 +52,4 @@
         </div>
     </body>
 </html>
+

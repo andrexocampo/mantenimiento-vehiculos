@@ -34,7 +34,7 @@ public class User {
     private String role = "USER";
     
     @OneToMany(mappedBy = "user")
-    private List<Vehiculo> vehicles;
+    private List<Vehicle> vehicles;
     
     // Constructors
     public User() {}
@@ -85,11 +85,11 @@ public class User {
         this.role = role;
     }
     
-    public List<Vehiculo> getVehicles() {
+    public List<Vehicle> getVehicles() {
         return vehicles;
     }
     
-    public void setVehicles(List<Vehiculo> vehicles) {
+    public void setVehicles(List<Vehicle> vehicles) {
         this.vehicles = vehicles;
     }
 }

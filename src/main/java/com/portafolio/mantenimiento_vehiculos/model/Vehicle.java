@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="Vehiculos")
-public class Vehiculo {
+public class Vehicle {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
@@ -34,13 +34,13 @@ public class Vehiculo {
     
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name="fk_vehiculo_id",referencedColumnName="id")
-    private List<Mantenimiento> maintenances;
+    private List<Maintenance> maintenances;
     
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
     
-    public Vehiculo(){}
+    public Vehicle(){}
     
     public void setId(int id){
         this.id=id;
@@ -74,11 +74,11 @@ public class Vehiculo {
         return description;
     }
     
-    public void setMaintenances(List<Mantenimiento> maintenances){
+    public void setMaintenances(List<Maintenance> maintenances){
         this.maintenances=maintenances;
     }
     
-    public List<Mantenimiento> getMaintenances(){
+    public List<Maintenance> getMaintenances(){
         return maintenances;
     }
     

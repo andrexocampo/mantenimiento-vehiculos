@@ -1,8 +1,8 @@
 package com.portafolio.mantenimiento_vehiculos.service;
 
-import com.portafolio.mantenimiento_vehiculos.interfaces.InterfazMantenimiento;
-import com.portafolio.mantenimiento_vehiculos.interfacesService.InterfazMantenimientoService;
-import com.portafolio.mantenimiento_vehiculos.model.Mantenimiento;
+import com.portafolio.mantenimiento_vehiculos.interfaces.MaintenanceRepository;
+import com.portafolio.mantenimiento_vehiculos.interfacesService.MaintenanceServiceInterface;
+import com.portafolio.mantenimiento_vehiculos.model.Maintenance;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +13,24 @@ import org.springframework.stereotype.Service;
  * @author Andres
  */
 @Service
-public class MantenimientoService implements InterfazMantenimientoService{
+public class MaintenanceService implements MaintenanceServiceInterface{
     @Autowired
-    private InterfazMantenimiento data;
+    private MaintenanceRepository data;
     
     @Override
-    public List<Mantenimiento> listar(){
-        return (List<Mantenimiento>)data.findAll();
+    public List<Maintenance> listar(){
+        return (List<Maintenance>)data.findAll();
     }
     
     @Override
-    public Optional<Mantenimiento> listarId(int id){
+    public Optional<Maintenance> listarId(int id){
         return data.findById(id);
     }
     
     @Override
-    public int save(Mantenimiento m){
+    public int save(Maintenance m){
         int res=0;
-        Mantenimiento maintenance=data.save(m);
+        Maintenance maintenance=data.save(m);
         if(!maintenance.equals(null)){
             res=1;
         }
@@ -42,3 +42,4 @@ public class MantenimientoService implements InterfazMantenimientoService{
         data.deleteById(id);
     }
 }
+

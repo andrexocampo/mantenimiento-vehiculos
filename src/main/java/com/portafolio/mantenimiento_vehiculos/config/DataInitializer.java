@@ -1,9 +1,9 @@
 package com.portafolio.mantenimiento_vehiculos.config;
 
-import com.portafolio.mantenimiento_vehiculos.interfaces.InterfaceVehiculo;
 import com.portafolio.mantenimiento_vehiculos.interfaces.UserRepository;
+import com.portafolio.mantenimiento_vehiculos.interfaces.VehicleRepository;
 import com.portafolio.mantenimiento_vehiculos.model.User;
-import com.portafolio.mantenimiento_vehiculos.model.Vehiculo;
+import com.portafolio.mantenimiento_vehiculos.model.Vehicle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,7 +22,7 @@ public class DataInitializer implements CommandLineRunner {
     private UserRepository userRepository;
     
     @Autowired
-    private InterfaceVehiculo vehicleRepository;
+    private VehicleRepository vehicleRepository;
     
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -45,9 +45,9 @@ public class DataInitializer implements CommandLineRunner {
         }
         
         // Assign all vehicles without user to the default admin user
-        List<Vehiculo> vehiclesWithoutUser = vehicleRepository.findVehiclesWithoutUser();
+        List<Vehicle> vehiclesWithoutUser = vehicleRepository.findVehiclesWithoutUser();
         if (!vehiclesWithoutUser.isEmpty()) {
-            for (Vehiculo vehicle : vehiclesWithoutUser) {
+            for (Vehicle vehicle : vehiclesWithoutUser) {
                 vehicle.setUser(admin);
                 vehicleRepository.save(vehicle);
             }

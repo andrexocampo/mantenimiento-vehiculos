@@ -18,7 +18,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" th:href="@{/vehiculos}">Vehicles</a>
+                            <a class="nav-link active" th:href="@{/vehicles}">Vehicles</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Statistics</a>
@@ -40,7 +40,7 @@
             
             <div class="row">    
                 <div class="col-md-4">
-                    <a th:href="@{/vehiculos}" class="btn btn-primary">Back</a>
+                    <a th:href="@{/vehicles}" class="btn btn-primary">Back</a>
                 </div>
             </div>
             
@@ -66,7 +66,7 @@
                                 <tbody>
                                     <tr>
                                         <td colspan="6">
-                                            <a th:href="@{/nuevo_mantenimiento/{id}(id=${vehiculo.id})}" class="btn btn-primary">Add Maintenance</a>
+                                            <a th:href="@{/vehicles/{vehicleId}/maintenances/new(vehicleId=${vehiculo.id})}" class="btn btn-primary">Add Maintenance</a>
                                         </td>
                                     </tr>
                                     <tr th:each="mantenimientosVehiculo:${mantenimientosVehiculo}">
@@ -121,7 +121,7 @@
                 <tbody>
                     <tr>
                         <td colspan="6">
-                            <a th:href="@{/nuevo_mantenimiento/{id}(id=${vehiculo.id})}" class="btn btn-primary">New</a>
+                            <a th:href="@{/vehicles/{vehicleId}/maintenances/new(vehicleId=${vehiculo.id})}" class="btn btn-primary">New</a>
                         </td>
                     </tr>
                     <tr th:each="mantenimientos:${mantenimientos}">
@@ -141,3 +141,4 @@
         
     </body>
 </html>
+
