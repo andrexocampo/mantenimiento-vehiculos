@@ -69,9 +69,24 @@
                 font-weight: 600;
             }
             
-            h1, h2 {
+            h1 {
                 color: var(--dark-bg);
                 font-weight: 700;
+            }
+            
+            h2 {
+                color: var(--dark-bg);
+                font-weight: 700;
+            }
+            
+            .card-header h2,
+            .card-header h2.mb-0 {
+                color: var(--light-bg) !important;
+            }
+            
+            .card-header small {
+                color: var(--light-bg) !important;
+                opacity: 0.9;
             }
             
             .table {
@@ -126,6 +141,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" th:href="@{/maintenances}">Maintenances</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/settings}">Settings</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Statistics</a>

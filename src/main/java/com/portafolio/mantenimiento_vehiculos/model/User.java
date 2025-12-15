@@ -33,6 +33,12 @@ public class User {
     private boolean enabled = true;
     private String role = "USER";
     
+    private String email;
+    private boolean emailNotificationsEnabled = false;
+    private boolean notifyOneMonthBefore = false;
+    private boolean notifyOneWeekBefore = true;
+    private boolean notifyOneDayBefore = true;
+    
     @OneToMany(mappedBy = "user")
     private List<Vehicle> vehicles;
     
@@ -91,6 +97,46 @@ public class User {
     
     public void setVehicles(List<Vehicle> vehicles) {
         this.vehicles = vehicles;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+    
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    public boolean isEmailNotificationsEnabled() {
+        return emailNotificationsEnabled;
+    }
+    
+    public void setEmailNotificationsEnabled(boolean emailNotificationsEnabled) {
+        this.emailNotificationsEnabled = emailNotificationsEnabled;
+    }
+    
+    public boolean isNotifyOneWeekBefore() {
+        return notifyOneWeekBefore;
+    }
+    
+    public void setNotifyOneWeekBefore(boolean notifyOneWeekBefore) {
+        this.notifyOneWeekBefore = notifyOneWeekBefore;
+    }
+    
+    public boolean isNotifyOneDayBefore() {
+        return notifyOneDayBefore;
+    }
+    
+    public void setNotifyOneDayBefore(boolean notifyOneDayBefore) {
+        this.notifyOneDayBefore = notifyOneDayBefore;
+    }
+    
+    public boolean isNotifyOneMonthBefore() {
+        return notifyOneMonthBefore;
+    }
+    
+    public void setNotifyOneMonthBefore(boolean notifyOneMonthBefore) {
+        this.notifyOneMonthBefore = notifyOneMonthBefore;
     }
 }
 

@@ -23,14 +23,16 @@ public interface MaintenanceRepository extends CrudRepository<Maintenance,Intege
     
     /**
      * Get pending maintenances (not paid) for vehicles owned by a specific user
+     * Ordered by expiration date (oldest first - most urgent first)
      */
-    @Query("SELECT m FROM Maintenance m WHERE m.vehicle.user = :user AND m.paid = false")
+    @Query("SELECT m FROM Maintenance m WHERE m.vehicle.user = :user AND m.paid = false ORDER BY m.expirationDate ASC NULLS LAST")
     List<Maintenance> findPendingByUser(@Param("user") User user);
     
     /**
      * Get completed maintenances (paid) for vehicles owned by a specific user
+     * Ordered by payment date (most recent first)
      */
-    @Query("SELECT m FROM Maintenance m WHERE m.vehicle.user = :user AND m.paid = true")
+    @Query("SELECT m FROM Maintenance m WHERE m.vehicle.user = :user AND m.paid = true ORDER BY m.paymentDate DESC NULLS LAST")
     List<Maintenance> findCompletedByUser(@Param("user") User user);
 }
 

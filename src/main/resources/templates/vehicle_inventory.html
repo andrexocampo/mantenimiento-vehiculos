@@ -102,6 +102,9 @@
                             <a class="nav-link" th:href="@{/maintenances}">Maintenances</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link" th:href="@{/settings}">Settings</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="#">Statistics</a>
                         </li>
                     </ul>
@@ -120,6 +123,33 @@
         <div class="container mt-4">
             <h1>Vehicle Inventory</h1>
             <p>Here are all the vehicles you have registered</p>
+            
+            <!-- Notifications -->
+            <div th:if="${notifications != null and notifications.hasNotifications()}" class="mb-4">
+                <div th:if="${notifications.expiredCount > 0}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>⚠️ EXPIRED:</strong> You have <span th:text="${notifications.expiredCount}"></span> expired maintenance(s) that need immediate attention!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                
+                <div th:if="${notifications.oneDayBefore != null and !notifications.oneDayBefore.isEmpty()}" class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <strong>🔴 URGENT:</strong> <span th:text="${#lists.size(notifications.oneDayBefore)}"></span> maintenance(s) expiring in 1 day!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                
+                <div th:if="${notifications.oneWeekBefore != null and !notifications.oneWeekBefore.isEmpty()}" class="alert alert-info alert-dismissible fade show" role="alert">
+                    <strong>🟡 REMINDER:</strong> <span th:text="${#lists.size(notifications.oneWeekBefore)}"></span> maintenance(s) expiring in 1 week.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                
+                <div th:if="${notifications.oneMonthBefore != null and !notifications.oneMonthBefore.isEmpty()}" class="alert alert-primary alert-dismissible fade show" role="alert">
+                    <strong>🔵 UPCOMING:</strong> <span th:text="${#lists.size(notifications.oneMonthBefore)}"></span> maintenance(s) expiring in 1 month.
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                
+                <div class="text-center">
+                    <a th:href="@{/maintenances}" class="btn btn-primary">View All Maintenances</a>
+                </div>
+            </div>
             <div class="col-md-4 mb-3">
                 <a th:href="@{/vehicles/new}" class="btn btn-primary">New Vehicle</a>
             </div>

@@ -3,6 +3,9 @@ package com.portafolio.mantenimiento_vehiculos.controller;
 import com.portafolio.mantenimiento_vehiculos.interfacesService.VehicleServiceInterface;
 import com.portafolio.mantenimiento_vehiculos.model.Maintenance;
 import com.portafolio.mantenimiento_vehiculos.model.Vehicle;
+import com.portafolio.mantenimiento_vehiculos.model.dto.NotificationResult;
+import com.portafolio.mantenimiento_vehiculos.service.NotificationService;
+import com.portafolio.mantenimiento_vehiculos.service.SecurityService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,12 @@ public class VehicleController {
     @Autowired
     private VehicleServiceInterface service;
     
+    @Autowired
+    private NotificationService notificationService;
+    
+    @Autowired
+    private SecurityService securityService;
+    
     // ========== HOME / ROOT ==========
     
     @GetMapping("/")
@@ -38,6 +47,17 @@ public class VehicleController {
         try {
             List<Vehicle> vehicles = service.listar();
             model.addAttribute("vehiculos", vehicles);
+            
+            // Check for maintenance notifications (Option 1: Check on login)
+            try {
+                com.portafolio.mantenimiento_vehiculos.model.User currentUser = securityService.getCurrentUser();
+                NotificationResult notifications = notificationService.checkMaintenances(currentUser);
+                model.addAttribute("notifications", notifications);
+            } catch (Exception e) {
+                // If notification check fails, continue without notifications
+                System.err.println("Error checking notifications: " + e.getMessage());
+            }
+            
             return "vehicle_inventory";
         } catch (Exception e) {
             System.err.println("Error listing vehicles: " + e.getMessage());

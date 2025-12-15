@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Settings - Vehicle Maintenance</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            :root {
+                --dark-bg: #262a29;
+                --light-bg: #faf5e9;
+                --accent: #f7ae20;
+            }
+            
+            body {
+                background-color: var(--light-bg);
+                color: var(--dark-bg);
+                min-height: 100vh;
+            }
+            
+            .navbar {
+                background-color: var(--dark-bg) !important;
+            }
+            
+            .navbar-brand,
+            .nav-link {
+                color: var(--light-bg) !important;
+            }
+            
+            .nav-link:hover {
+                color: var(--accent) !important;
+            }
+            
+            .btn-primary {
+                background-color: var(--accent);
+                border-color: var(--accent);
+                color: var(--dark-bg);
+                font-weight: 600;
+            }
+            
+            .btn-primary:hover {
+                background-color: #e09d1c;
+                border-color: #e09d1c;
+                color: var(--dark-bg);
+            }
+            
+            .btn-secondary {
+                background-color: var(--dark-bg);
+                border-color: var(--dark-bg);
+                color: var(--light-bg);
+            }
+            
+            .btn-secondary:hover {
+                background-color: #1a1d1c;
+                border-color: #1a1d1c;
+                color: var(--light-bg);
+            }
+            
+            .card {
+                background-color: white;
+                border: 1px solid #e0e0e0;
+                box-shadow: 0 2px 4px rgba(38, 42, 41, 0.1);
+            }
+            
+            .card-header {
+                background-color: var(--dark-bg);
+                color: var(--light-bg);
+                font-weight: 600;
+            }
+            
+            h1 {
+                color: var(--dark-bg);
+                font-weight: 700;
+            }
+            
+            label {
+                color: var(--dark-bg);
+                font-weight: 600;
+            }
+            
+            .form-check-input:checked {
+                background-color: var(--accent);
+                border-color: var(--accent);
+            }
+        </style>
+    </head>
+    <body>
+        
+        <!-- Navigation bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/vehicles}">Maintenance Manager</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/vehicles}">Vehicles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/maintenances}">Maintenances</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/settings}">Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Statistics</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <form th:action="@{/logout}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-link nav-link text-white">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container mt-4">
+            <h1>Settings</h1>
+            
+            <div th:if="${param.success}" class="alert alert-success alert-dismissible fade show">
+                Settings updated successfully!
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            
+            <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show">
+                Error updating settings. Please try again.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Notification Settings</h2>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/settings}" th:object="${user}" method="post">
+                        <!-- Email Configuration -->
+                        <div class="mb-4">
+                            <h4>Email Notifications</h4>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" 
+                                       th:field="*{email}" 
+                                       placeholder="your-email@example.com">
+                                <small class="form-text text-muted">
+                                    Enter your email address to receive maintenance notifications
+                                </small>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" role="switch" 
+                                       id="emailNotificationsEnabled" 
+                                       th:field="*{emailNotificationsEnabled}">
+                                <label class="form-check-label" for="emailNotificationsEnabled">
+                                    Enable email notifications
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <hr>
+                        
+                        <!-- Notification Preferences -->
+                        <div class="mb-4">
+                            <h4>Notification Preferences</h4>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" role="switch" 
+                                       id="notifyOneMonthBefore" 
+                                       th:field="*{notifyOneMonthBefore}">
+                                <label class="form-check-label" for="notifyOneMonthBefore">
+                                    Notify 1 month before expiration
+                                </label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" role="switch" 
+                                       id="notifyOneWeekBefore" 
+                                       th:field="*{notifyOneWeekBefore}">
+                                <label class="form-check-label" for="notifyOneWeekBefore">
+                                    Notify 1 week before expiration
+                                </label>
+                            </div>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input" type="checkbox" role="switch" 
+                                       id="notifyOneDayBefore" 
+                                       th:field="*{notifyOneDayBefore}">
+                                <label class="form-check-label" for="notifyOneDayBefore">
+                                    Notify 1 day before expiration
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-primary">Save Settings</button>
+                            <a th:href="@{/vehicles}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Information Card -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5>About Notifications</h5>
+                    <p class="mb-2">
+                        <strong>Current Implementation (Option 1):</strong> Notifications are checked when you log in and displayed on the vehicles page.
+                    </p>
+                    <p class="mb-0">
+                        <strong>Future Enhancement (Option 2):</strong> Scheduled email notifications can be enabled for automatic daily checks. This requires server configuration and email setup.
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
+
