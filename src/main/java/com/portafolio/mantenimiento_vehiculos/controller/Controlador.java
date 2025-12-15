@@ -3,7 +3,9 @@ package com.portafolio.mantenimiento_vehiculos.controller;
 import com.portafolio.mantenimiento_vehiculos.interfacesService.InterfaceVehiculoService;
 import com.portafolio.mantenimiento_vehiculos.interfacesService.InterfazMantenimientoService;
 import com.portafolio.mantenimiento_vehiculos.model.Mantenimiento;
+import com.portafolio.mantenimiento_vehiculos.model.User;
 import com.portafolio.mantenimiento_vehiculos.model.Vehiculo;
+import com.portafolio.mantenimiento_vehiculos.service.UserService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,40 @@ public class Controlador {
     @Autowired
     private InterfazMantenimientoService serviceM;
     
+    @Autowired
+    private UserService userService;
+    
+    // ========== AUTHENTICATION ENDPOINTS ==========
+    
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+    
+    @GetMapping("/register")
+    public String showRegisterForm(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
+    
+    @PostMapping("/register")
+    public String processRegister(User user, Model model) {
+        try {
+            userService.saveUser(user);
+            return "redirect:/login?register=true";
+        } catch (Exception e) {
+            model.addAttribute("error", e.getMessage());
+            return "register";
+        }
+    }
+    
+    // ========== VEHICLES ENDPOINTS ==========
+    
+    @GetMapping("/")
+    public String home() {
+        return "redirect:/vehicles";
+    }
+    
     @GetMapping("/listar")
     public String listar(Model model){
         List<Vehiculo> vehicles = service.listar();
@@ -37,13 +73,14 @@ public class Controlador {
     
     @GetMapping("/vehiculos/listar/{id}")
     public String listarMantenimiento(Model model, @PathVariable int id){
-        // Get all maintenance records
-        List<Mantenimiento> allMaintenances = serviceM.listar();
-        // Get vehicle data by id
         Optional<Vehiculo> vehicleOptional = service.listarId(id);
+        if (vehicleOptional.isEmpty()) {
+            return "redirect:/vehicles";
+        }
+        
         Vehiculo vehicle = vehicleOptional.get();
-        // Get maintenance records for this vehicle
         List<Mantenimiento> vehicleMaintenances = service.listarMantenimientos(id);
+        List<Mantenimiento> allMaintenances = serviceM.listar();
         
         model.addAttribute("mantenimientosVehiculo", vehicleMaintenances);
         model.addAttribute("mantenimientos", allMaintenances);
@@ -56,6 +93,21 @@ public class Controlador {
         List<Vehiculo> vehicles = service.listar();
         model.addAttribute("vehiculos", vehicles);
         return "inventarioVehiculos";
+    }
+    
+    @GetMapping("/vehicles")
+    public String listVehicles(Model model){
+        try {
+            List<Vehiculo> vehicles = service.listar();
+            model.addAttribute("vehiculos", vehicles);
+            return "inventarioVehiculos";
+        } catch (Exception e) {
+            // Log the error for debugging
+            System.err.println("Error in listVehicles: " + e.getMessage());
+            e.printStackTrace();
+            model.addAttribute("error", "Error loading vehicles: " + e.getMessage());
+            return "inventarioVehiculos";
+        }
     }
     
     // CRUD Vehicles

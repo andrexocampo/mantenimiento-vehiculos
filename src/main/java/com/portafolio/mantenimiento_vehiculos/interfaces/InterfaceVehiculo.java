@@ -1,6 +1,7 @@
 package com.portafolio.mantenimiento_vehiculos.interfaces;
 
 import com.portafolio.mantenimiento_vehiculos.model.Mantenimiento;
+import com.portafolio.mantenimiento_vehiculos.model.User;
 import com.portafolio.mantenimiento_vehiculos.model.Vehiculo;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +18,12 @@ public interface InterfaceVehiculo extends CrudRepository<Vehiculo,Integer> {
     
     @Query("SELECT v.maintenances FROM Vehiculo v WHERE v.id = :id")
     List<Mantenimiento> findMantenimientosByVehiculoId(@Param("id") int id);
+    
+    List<Vehiculo> findByUser(User user);
+    
+    @Query("SELECT v FROM Vehiculo v WHERE v.user.id = :userId")
+    List<Vehiculo> findByUserId(@Param("userId") Long userId);
+    
+    @Query("SELECT v FROM Vehiculo v WHERE v.user IS NULL")
+    List<Vehiculo> findVehiclesWithoutUser();
 }

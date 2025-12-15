@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
@@ -34,6 +35,10 @@ public class Vehiculo {
     @OneToMany(cascade=CascadeType.ALL)
     @JoinColumn(name="fk_vehiculo_id",referencedColumnName="id")
     private List<Mantenimiento> maintenances;
+    
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
     
     public Vehiculo(){}
     
@@ -75,5 +80,13 @@ public class Vehiculo {
     
     public List<Mantenimiento> getMaintenances(){
         return maintenances;
+    }
+    
+    public User getUser() {
+        return user;
+    }
+    
+    public void setUser(User user) {
+        this.user = user;
     }
 }
