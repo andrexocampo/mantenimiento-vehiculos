@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Maintenances Overview - Vehicle Maintenance</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            :root {
+                --dark-bg: #262a29;
+                --light-bg: #faf5e9;
+                --accent: #f7ae20;
+            }
+            
+            body {
+                background-color: var(--light-bg);
+                color: var(--dark-bg);
+                min-height: 100vh;
+            }
+            
+            .navbar {
+                background-color: var(--dark-bg) !important;
+            }
+            
+            .navbar-brand,
+            .nav-link {
+                color: var(--light-bg) !important;
+            }
+            
+            .nav-link:hover {
+                color: var(--accent) !important;
+            }
+            
+            .btn-primary {
+                background-color: var(--accent);
+                border-color: var(--accent);
+                color: var(--dark-bg);
+                font-weight: 600;
+            }
+            
+            .btn-primary:hover {
+                background-color: #e09d1c;
+                border-color: #e09d1c;
+                color: var(--dark-bg);
+            }
+            
+            .btn-secondary {
+                background-color: var(--dark-bg);
+                border-color: var(--dark-bg);
+                color: var(--light-bg);
+            }
+            
+            .btn-secondary:hover {
+                background-color: #1a1d1c;
+                border-color: #1a1d1c;
+                color: var(--light-bg);
+            }
+            
+            .card {
+                background-color: white;
+                border: 1px solid #e0e0e0;
+                box-shadow: 0 2px 4px rgba(38, 42, 41, 0.1);
+                margin-bottom: 2rem;
+            }
+            
+            .card-header {
+                background-color: var(--dark-bg);
+                color: var(--light-bg);
+                font-weight: 600;
+            }
+            
+            h1, h2 {
+                color: var(--dark-bg);
+                font-weight: 700;
+            }
+            
+            .table {
+                background-color: white;
+            }
+            
+            .table thead {
+                background-color: var(--dark-bg);
+                color: var(--light-bg);
+            }
+        </style>
+    </head>
+    <body>
+        
+        <!-- Navigation bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/vehicles}">Maintenance Manager</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/vehicles}">Vehicles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/maintenances}">Maintenances</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Statistics</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <form th:action="@{/logout}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-link nav-link text-white">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container mt-4">
+            <h1>Maintenances Overview</h1>
+            
+            <!-- Pending Maintenances Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Pending Maintenances</h2>
+                    <small>Maintenances that have not been completed</small>
+                </div>
+                <div class="card-body">
+                    <div th:if="${pendingMaintenances != null and !pendingMaintenances.isEmpty()}">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Vehicle</th>
+                                    <th>Description</th>
+                                    <th>Expiration Date</th>
+                                    <th>Cost</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="maintenance : ${pendingMaintenances}">
+                                    <td th:text="${maintenance.id}"></td>
+                                    <td>
+                                        <strong th:text="${maintenance.vehicle.licensePlate}"></strong>
+                                        <br>
+                                        <small th:text="${maintenance.vehicle.name}"></small>
+                                    </td>
+                                    <td th:text="${maintenance.description}"></td>
+                                    <td th:text="${maintenance.expirationDate}"></td>
+                                    <td th:text="${'$' + #numbers.formatDecimal(maintenance.cost, 1, 2)}"></td>
+                                    <td>
+                                        <a th:href="@{/vehicles/{vehicleId}/maintenances/{id}/edit(vehicleId=${maintenance.vehicle.id}, id=${maintenance.id})}" 
+                                           class="btn btn-sm btn-primary">Edit</a>
+                                        <a th:href="@{/vehicles/{id}(id=${maintenance.vehicle.id})}" 
+                                           class="btn btn-sm btn-secondary">View Vehicle</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div th:if="${pendingMaintenances == null or pendingMaintenances.isEmpty()}" class="text-center text-muted">
+                        <p>No pending maintenances found.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Completed Maintenances Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="mb-0">Completed Maintenances</h2>
+                    <small>All maintenances that have been completed</small>
+                </div>
+                <div class="card-body">
+                    <div th:if="${completedMaintenances != null and !completedMaintenances.isEmpty()}">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Vehicle</th>
+                                    <th>Description</th>
+                                    <th>Payment Date</th>
+                                    <th>Expiration Date</th>
+                                    <th>Cost</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="maintenance : ${completedMaintenances}">
+                                    <td th:text="${maintenance.id}"></td>
+                                    <td>
+                                        <strong th:text="${maintenance.vehicle.licensePlate}"></strong>
+                                        <br>
+                                        <small th:text="${maintenance.vehicle.name}"></small>
+                                    </td>
+                                    <td th:text="${maintenance.description}"></td>
+                                    <td th:text="${maintenance.paymentDate}"></td>
+                                    <td th:text="${maintenance.expirationDate}"></td>
+                                    <td th:text="${'$' + #numbers.formatDecimal(maintenance.cost, 1, 2)}"></td>
+                                    <td>
+                                        <a th:href="@{/vehicles/{vehicleId}/maintenances/{id}/edit(vehicleId=${maintenance.vehicle.id}, id=${maintenance.id})}" 
+                                           class="btn btn-sm btn-primary">Edit</a>
+                                        <a th:href="@{/vehicles/{id}(id=${maintenance.vehicle.id})}" 
+                                           class="btn btn-sm btn-secondary">View Vehicle</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div th:if="${completedMaintenances == null or completedMaintenances.isEmpty()}" class="text-center text-muted">
+                        <p>No completed maintenances found.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
+

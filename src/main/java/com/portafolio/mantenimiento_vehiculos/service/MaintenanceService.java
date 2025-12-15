@@ -3,6 +3,7 @@ package com.portafolio.mantenimiento_vehiculos.service;
 import com.portafolio.mantenimiento_vehiculos.interfaces.MaintenanceRepository;
 import com.portafolio.mantenimiento_vehiculos.interfacesService.MaintenanceServiceInterface;
 import com.portafolio.mantenimiento_vehiculos.model.Maintenance;
+import com.portafolio.mantenimiento_vehiculos.model.User;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Service;
 public class MaintenanceService implements MaintenanceServiceInterface{
     @Autowired
     private MaintenanceRepository data;
+    
+    @Autowired
+    private SecurityService securityService;
     
     @Override
     public List<Maintenance> listar(){
@@ -40,6 +44,24 @@ public class MaintenanceService implements MaintenanceServiceInterface{
     @Override
     public void delete(int id){
         data.deleteById(id);
+    }
+    
+    @Override
+    public List<Maintenance> listAllByUser() {
+        User currentUser = securityService.getCurrentUser();
+        return data.findByUser(currentUser);
+    }
+    
+    @Override
+    public List<Maintenance> listPendingMaintenances() {
+        User currentUser = securityService.getCurrentUser();
+        return data.findPendingByUser(currentUser);
+    }
+    
+    @Override
+    public List<Maintenance> listCompletedMaintenances() {
+        User currentUser = securityService.getCurrentUser();
+        return data.findCompletedByUser(currentUser);
     }
 }
 

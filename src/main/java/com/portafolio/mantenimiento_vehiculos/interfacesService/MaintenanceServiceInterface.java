@@ -13,5 +13,20 @@ public interface MaintenanceServiceInterface {
     public Optional<Maintenance> listarId(int id);
     public void delete(int id);
     public int save(Maintenance m);
+    
+    /**
+     * Get all maintenances for the current authenticated user
+     */
+    public List<Maintenance> listAllByUser();
+    
+    /**
+     * Get pending maintenances (not paid) for the current authenticated user
+     */
+    public List<Maintenance> listPendingMaintenances();
+    
+    /**
+     * Get completed maintenances (paid) for the current authenticated user
+     */
+    public List<Maintenance> listCompletedMaintenances();
 }
 
