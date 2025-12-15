@@ -18,10 +18,10 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" th:href="@{/vehiculos}">Vehicles</a>
+                            <a class="nav-link active" th:href="@{/vehicles}">Vehicles</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" th:href="@{/listar}">Statistics</a>
+                            <a class="nav-link" href="#">Statistics</a>
                         </li>
                     </ul>
                 </div>
@@ -33,7 +33,7 @@
             <h1>Vehicle Inventory</h1>
             <p>Here are all the vehicles you have registered</p>
             <div class="col-md-4 mb-3">
-                <a th:href="@{/new}" class="btn btn-primary">New Vehicle</a>
+                <a th:href="@{/vehicles/new}" class="btn btn-primary">New Vehicle</a>
             </div>
             <div class="row">
                 <div th:each="vehiculo:${vehiculos}" class="col-md-4 mb-3">
@@ -45,9 +45,9 @@
                             <h5>Description:</h5>
                             <p th:text="${vehiculo.description}"></p>
                             
-                            <a th:href="@{/editar/}+${vehiculo.id}" class="btn btn-warning">Edit</a>
-                            <a th:href="@{/eliminar/}+${vehiculo.id}" class="btn btn-danger">Delete</a>
-                            <a th:href="@{/vehiculos/listar/}+${vehiculo.id}" class="btn btn-primary">View More</a>
+                            <a th:href="@{/vehicles/{id}/edit(id=${vehiculo.id})}" class="btn btn-warning">Edit</a>
+                            <a th:href="@{/vehicles/{id}/delete(id=${vehiculo.id})}" class="btn btn-danger">Delete</a>
+                            <a th:href="@{/vehicles/{id}(id=${vehiculo.id})}" class="btn btn-primary">View More</a>
                         </div>
                     </div>
                 </div>
@@ -58,3 +58,4 @@
         
     </body>
 </html>
+

@@ -16,7 +16,7 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name="mantenimiento")
-public class Mantenimiento {
+public class Maintenance {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -40,9 +40,9 @@ public class Mantenimiento {
     
     @ManyToOne
     @JoinColumn(name="fk_vehiculo_id")
-    private Vehiculo vehicle;
+    private Vehicle vehicle;
     
-    public Mantenimiento(){}
+    public Maintenance(){}
     
     public void setId(int id){
         this.id=id;
@@ -92,11 +92,12 @@ public class Mantenimiento {
         return cost;
     }
     
-    public void setVehicle(Vehiculo vehicle){
+    public void setVehicle(Vehicle vehicle){
         this.vehicle=vehicle;
     }
     
-    public Vehiculo getVehicle(){
+    public Vehicle getVehicle(){
         return vehicle;
     }
 }
+

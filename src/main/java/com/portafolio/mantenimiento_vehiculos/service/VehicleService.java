@@ -1,9 +1,9 @@
 package com.portafolio.mantenimiento_vehiculos.service;
 
-import com.portafolio.mantenimiento_vehiculos.interfaces.InterfaceVehiculo;
-import com.portafolio.mantenimiento_vehiculos.interfacesService.InterfaceVehiculoService;
-import com.portafolio.mantenimiento_vehiculos.model.Mantenimiento;
-import com.portafolio.mantenimiento_vehiculos.model.Vehiculo;
+import com.portafolio.mantenimiento_vehiculos.interfaces.VehicleRepository;
+import com.portafolio.mantenimiento_vehiculos.interfacesService.VehicleServiceInterface;
+import com.portafolio.mantenimiento_vehiculos.model.Maintenance;
+import com.portafolio.mantenimiento_vehiculos.model.Vehicle;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,24 +14,24 @@ import org.springframework.stereotype.Service;
  * @author Andres
  */
 @Service
-public class VehiculoService implements InterfaceVehiculoService {
+public class VehicleService implements VehicleServiceInterface {
     @Autowired
-    private InterfaceVehiculo data;
+    private VehicleRepository data;
     
     @Override
-    public List<Vehiculo> listar(){
-        return (List<Vehiculo>)data.findAll();
+    public List<Vehicle> listar(){
+        return (List<Vehicle>)data.findAll();
     }
     
     @Override
-    public Optional<Vehiculo> listarId(int id){
+    public Optional<Vehicle> listarId(int id){
         return data.findById(id);
     }
     
     @Override
-    public int save(Vehiculo v){
+    public int save(Vehicle v){
         int res=0;
-        Vehiculo vehicle=data.save(v);
+        Vehicle vehicle=data.save(v);
         if(!vehicle.equals(null)){
             res=1;
         }
@@ -44,7 +44,8 @@ public class VehiculoService implements InterfaceVehiculoService {
     }
     
     @Override
-    public List<Mantenimiento> listarMantenimientos(int id){
+    public List<Maintenance> listarMantenimientos(int id){
         return data.findMantenimientosByVehiculoId(id);
     }
 }
+
