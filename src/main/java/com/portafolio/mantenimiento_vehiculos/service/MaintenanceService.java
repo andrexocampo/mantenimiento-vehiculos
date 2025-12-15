@@ -63,5 +63,37 @@ public class MaintenanceService implements MaintenanceServiceInterface{
         User currentUser = securityService.getCurrentUser();
         return data.findCompletedByUser(currentUser);
     }
+    
+    @Override
+    public void markAsPaid(int id) {
+        Optional<Maintenance> maintenanceOptional = data.findById(id);
+        if (maintenanceOptional.isPresent()) {
+            Maintenance maintenance = maintenanceOptional.get();
+            // Verify ownership through vehicle
+            User currentUser = securityService.getCurrentUser();
+            if (maintenance.getVehicle().getUser().getId() == currentUser.getId()) {
+                maintenance.setPaid(true);
+                if (maintenance.getPaymentDate() == null) {
+                    maintenance.setPaymentDate(java.time.LocalDate.now());
+                }
+                data.save(maintenance);
+            }
+        }
+    }
+    
+    @Override
+    public void revertPayment(int id) {
+        Optional<Maintenance> maintenanceOptional = data.findById(id);
+        if (maintenanceOptional.isPresent()) {
+            Maintenance maintenance = maintenanceOptional.get();
+            // Verify ownership through vehicle
+            User currentUser = securityService.getCurrentUser();
+            if (maintenance.getVehicle().getUser().getId() == currentUser.getId()) {
+                maintenance.setPaid(false);
+                maintenance.setPaymentDate(null);
+                data.save(maintenance);
+            }
+        }
+    }
 }
 

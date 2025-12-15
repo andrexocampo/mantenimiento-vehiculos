@@ -50,6 +50,18 @@ public class MaintenanceController {
         }
     }
     
+    @PostMapping("/maintenances/{id}/mark-paid")
+    public String markAsPaid(@PathVariable int id) {
+        serviceM.markAsPaid(id);
+        return "redirect:/maintenances";
+    }
+    
+    @PostMapping("/maintenances/{id}/revert-payment")
+    public String revertPayment(@PathVariable int id) {
+        serviceM.revertPayment(id);
+        return "redirect:/maintenances";
+    }
+    
     // ========== MAINTENANCES CRUD (nested under vehicles) ==========
     
     @GetMapping("/vehicles/{vehicleId}/maintenances")

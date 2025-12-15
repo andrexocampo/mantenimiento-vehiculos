@@ -28,5 +28,15 @@ public interface MaintenanceServiceInterface {
      * Get completed maintenances (paid) for the current authenticated user
      */
     public List<Maintenance> listCompletedMaintenances();
+    
+    /**
+     * Mark a maintenance as paid
+     */
+    public void markAsPaid(int id);
+    
+    /**
+     * Revert payment status of a maintenance
+     */
+    public void revertPayment(int id);
 }
 

@@ -82,6 +82,32 @@
                 background-color: var(--dark-bg);
                 color: var(--light-bg);
             }
+            
+            .btn-success {
+                background-color: #28a745;
+                border-color: #28a745;
+                color: white;
+                font-weight: 600;
+            }
+            
+            .btn-success:hover {
+                background-color: #218838;
+                border-color: #1e7e34;
+                color: white;
+            }
+            
+            .btn-warning {
+                background-color: #ffc107;
+                border-color: #ffc107;
+                color: var(--dark-bg);
+                font-weight: 600;
+            }
+            
+            .btn-warning:hover {
+                background-color: #e0a800;
+                border-color: #d39e00;
+                color: var(--dark-bg);
+            }
         </style>
     </head>
     <body>
@@ -150,6 +176,12 @@
                                     <td th:text="${maintenance.expirationDate}"></td>
                                     <td th:text="${'$' + #numbers.formatDecimal(maintenance.cost, 1, 2)}"></td>
                                     <td>
+                                        <form th:action="@{/maintenances/{id}/mark-paid(id=${maintenance.id})}" 
+                                              method="post" 
+                                              class="d-inline"
+                                              onsubmit="return confirm('Are you sure you want to mark this maintenance as paid?');">
+                                            <button type="submit" class="btn btn-sm btn-success">Mark as Paid</button>
+                                        </form>
                                         <a th:href="@{/vehicles/{vehicleId}/maintenances/{id}/edit(vehicleId=${maintenance.vehicle.id}, id=${maintenance.id})}" 
                                            class="btn btn-sm btn-primary">Edit</a>
                                         <a th:href="@{/vehicles/{id}(id=${maintenance.vehicle.id})}" 
@@ -198,6 +230,12 @@
                                     <td th:text="${maintenance.expirationDate}"></td>
                                     <td th:text="${'$' + #numbers.formatDecimal(maintenance.cost, 1, 2)}"></td>
                                     <td>
+                                        <form th:action="@{/maintenances/{id}/revert-payment(id=${maintenance.id})}" 
+                                              method="post" 
+                                              class="d-inline"
+                                              onsubmit="return confirm('Are you sure you want to revert this payment?');">
+                                            <button type="submit" class="btn btn-sm btn-warning">Revert Payment</button>
+                                        </form>
                                         <a th:href="@{/vehicles/{vehicleId}/maintenances/{id}/edit(vehicleId=${maintenance.vehicle.id}, id=${maintenance.id})}" 
                                            class="btn btn-sm btn-primary">Edit</a>
                                         <a th:href="@{/vehicles/{id}(id=${maintenance.vehicle.id})}" 
