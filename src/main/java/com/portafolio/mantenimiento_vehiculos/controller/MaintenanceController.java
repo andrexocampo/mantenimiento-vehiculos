@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Controller for handling maintenance-related requests
@@ -51,8 +52,9 @@ public class MaintenanceController {
     }
     
     @PostMapping("/maintenances/{id}/mark-paid")
-    public String markAsPaid(@PathVariable int id) {
-        serviceM.markAsPaid(id);
+    public String markAsPaid(@PathVariable int id, 
+                             @RequestParam(value = "actualCost", required = false) Float actualCost) {
+        serviceM.markAsPaid(id, actualCost);
         return "redirect:/maintenances";
     }
     

@@ -65,7 +65,7 @@ public class MaintenanceService implements MaintenanceServiceInterface{
     }
     
     @Override
-    public void markAsPaid(int id) {
+    public void markAsPaid(int id, Float actualCost) {
         Optional<Maintenance> maintenanceOptional = data.findById(id);
         if (maintenanceOptional.isPresent()) {
             Maintenance maintenance = maintenanceOptional.get();
@@ -73,8 +73,11 @@ public class MaintenanceService implements MaintenanceServiceInterface{
             User currentUser = securityService.getCurrentUser();
             if (maintenance.getVehicle().getUser().getId() == currentUser.getId()) {
                 maintenance.setPaid(true);
-                if (maintenance.getPaymentDate() == null) {
-                    maintenance.setPaymentDate(java.time.LocalDate.now());
+                // Always update payment date to current date when marking as paid
+                maintenance.setPaymentDate(java.time.LocalDate.now());
+                // Update cost if provided
+                if (actualCost != null && actualCost >= 0) {
+                    maintenance.setCost(actualCost);
                 }
                 data.save(maintenance);
             }

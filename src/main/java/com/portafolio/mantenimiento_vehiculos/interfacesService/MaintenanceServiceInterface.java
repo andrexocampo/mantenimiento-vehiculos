@@ -31,8 +31,10 @@ public interface MaintenanceServiceInterface {
     
     /**
      * Mark a maintenance as paid
+     * @param id Maintenance ID
+     * @param actualCost Actual cost paid (can be null to keep original cost)
      */
-    public void markAsPaid(int id);
+    public void markAsPaid(int id, Float actualCost);
     
     /**
      * Revert payment status of a maintenance

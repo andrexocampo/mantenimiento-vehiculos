@@ -123,6 +123,17 @@
                 border-color: #d39e00;
                 color: var(--dark-bg);
             }
+            
+            .badge {
+                font-size: 0.75rem;
+                font-weight: 600;
+                padding: 0.25rem 0.5rem;
+            }
+            
+            .badge.bg-danger {
+                background-color: #dc3545 !important;
+                color: white;
+            }
         </style>
     </head>
     <body>
@@ -191,19 +202,58 @@
                                         <small th:text="${maintenance.vehicle.name}"></small>
                                     </td>
                                     <td th:text="${maintenance.description}"></td>
-                                    <td th:text="${maintenance.expirationDate}"></td>
+                                    <td>
+                                        <span th:text="${maintenance.expirationDate}"></span>
+                                        <span th:if="${maintenance.expirationDate != null and maintenance.expirationDate.isBefore(T(java.time.LocalDate).now())}" 
+                                              class="badge bg-danger ms-2">EXPIRED</span>
+                                    </td>
                                     <td th:text="${'$' + #numbers.formatDecimal(maintenance.cost, 1, 2)}"></td>
                                     <td>
-                                        <form th:action="@{/maintenances/{id}/mark-paid(id=${maintenance.id})}" 
-                                              method="post" 
-                                              class="d-inline"
-                                              onsubmit="return confirm('Are you sure you want to mark this maintenance as paid?');">
-                                            <button type="submit" class="btn btn-sm btn-success">Mark as Paid</button>
-                                        </form>
+                                        <button type="button" class="btn btn-sm btn-success" 
+                                                data-bs-toggle="modal" 
+                                                th:attr="data-bs-target='#markPaidModal' + ${maintenance.id}">
+                                            Mark as Paid
+                                        </button>
                                         <a th:href="@{/vehicles/{vehicleId}/maintenances/{id}/edit(vehicleId=${maintenance.vehicle.id}, id=${maintenance.id})}" 
                                            class="btn btn-sm btn-primary">Edit</a>
                                         <a th:href="@{/vehicles/{id}(id=${maintenance.vehicle.id})}" 
                                            class="btn btn-sm btn-secondary">View Vehicle</a>
+                                        
+                                        <!-- Modal for marking as paid with cost modification -->
+                                        <div class="modal fade" th:id="'markPaidModal' + ${maintenance.id}" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header" style="background-color: var(--dark-bg); color: var(--light-bg);">
+                                                        <h5 class="modal-title">Mark Maintenance as Paid</h5>
+                                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <form th:action="@{/maintenances/{id}/mark-paid(id=${maintenance.id})}" method="post">
+                                                        <div class="modal-body">
+                                                            <p><strong>Description:</strong> <span th:text="${maintenance.description}"></span></p>
+                                                            <p><strong>Vehicle:</strong> <span th:text="${maintenance.vehicle.licensePlate}"></span></p>
+                                                            <div class="mb-3">
+                                                                <label for="actualCost" class="form-label">Actual Cost</label>
+                                                                <input type="number" 
+                                                                       class="form-control" 
+                                                                       id="actualCost" 
+                                                                       name="actualCost" 
+                                                                       step="0.01" 
+                                                                       min="0"
+                                                                       th:value="${maintenance.cost}"
+                                                                       required>
+                                                                <small class="form-text text-muted">
+                                                                    Enter the actual amount paid. Leave as is if it matches the planned cost.
+                                                                </small>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                            <button type="submit" class="btn btn-success">Confirm Payment</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </tbody>
