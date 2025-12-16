@@ -70,7 +70,13 @@ public class StatisticsService {
         Float pendingThisMonth = maintenanceRepository.getPendingCostsThisMonthByUser(currentUser);
         stats.setPendingCostsThisMonth(pendingThisMonth != null ? pendingThisMonth : 0f);
         
-        // 5. Costo por vehículo (para gráfico de barras) - últimos 12 meses
+        // 5. Costo de pagos pendientes de los próximos 12 meses
+        LocalDate today = LocalDate.now();
+        LocalDate twelveMonthsAhead = today.plusMonths(12);
+        Float pendingNext12Months = maintenanceRepository.getPendingCostsNext12MonthsByUser(currentUser, twelveMonthsAhead);
+        stats.setPendingCostsNext12Months(pendingNext12Months != null ? pendingNext12Months : 0f);
+        
+        // 6. Costo por vehículo (para gráfico de barras) - últimos 12 meses
         List<VehicleCostDTO> vehicleCosts = calculateVehicleCostsLast12Months(vehicles, twelveMonthsAgo);
         stats.setVehicleCosts(vehicleCosts);
         
