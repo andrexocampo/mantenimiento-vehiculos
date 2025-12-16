@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Statistics - Vehicle Maintenance</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            :root {
+                --dark-bg: #262a29;
+                --light-bg: #faf5e9;
+                --accent: #f7ae20;
+            }
+            
+            body {
+                background-color: var(--light-bg);
+                color: var(--dark-bg);
+                min-height: 100vh;
+            }
+            
+            .navbar {
+                background-color: var(--dark-bg) !important;
+            }
+            
+            .navbar-brand,
+            .nav-link {
+                color: var(--light-bg) !important;
+            }
+            
+            .nav-link:hover {
+                color: var(--accent) !important;
+            }
+            
+            .btn-primary {
+                background-color: var(--accent);
+                border-color: var(--accent);
+                color: var(--dark-bg);
+                font-weight: 600;
+            }
+            
+            .btn-primary:hover {
+                background-color: #e09d1c;
+                border-color: #e09d1c;
+                color: var(--dark-bg);
+            }
+            
+            .card {
+                background-color: white;
+                border: 1px solid #e0e0e0;
+                box-shadow: 0 2px 4px rgba(38, 42, 41, 0.1);
+                margin-bottom: 2rem;
+            }
+            
+            .card-header {
+                background-color: var(--dark-bg);
+                color: var(--light-bg);
+                font-weight: 600;
+            }
+            
+            .card-header h3,
+            .card-header h3.mb-0 {
+                color: var(--light-bg) !important;
+            }
+            
+            h1, h2, h3 {
+                color: var(--dark-bg);
+                font-weight: 700;
+            }
+            
+            .stat-card {
+                text-align: center;
+                padding: 1.5rem;
+            }
+            
+            .stat-card h5 {
+                color: #666;
+                font-size: 0.9rem;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                margin-bottom: 0.5rem;
+            }
+            
+            .stat-card h2 {
+                color: var(--dark-bg);
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin: 0;
+            }
+            
+            .stat-card .stat-value {
+                color: var(--accent);
+            }
+            
+            /* Chart.js styling for better contrast */
+            .card-body canvas {
+                background-color: white;
+            }
+            
+            /* Ensure chart text is visible */
+            .card-body {
+                background-color: white;
+                color: var(--dark-bg);
+            }
+            
+            .card-body p {
+                color: var(--dark-bg);
+            }
+            
+            .card-body strong {
+                color: var(--dark-bg);
+            }
+        </style>
+    </head>
+    <body>
+        
+        <!-- Navigation bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/vehicles}">Maintenance Manager</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/vehicles}">Vehicles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/maintenances}">Maintenances</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/settings}">Settings</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" th:href="@{/statistics}">Statistics</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <form th:action="@{/logout}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-link nav-link text-white">Logout</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        
+        <div class="container mt-4">
+            <h1>Statistics</h1>
+            
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            
+            <!-- Summary Cards -->
+            <div class="row mb-4" th:if="${statistics != null}">
+                <div class="col-md-3">
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <h5>Total Vehicles</h5>
+                            <h2 th:text="${statistics.totalVehicles}">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <h5>Pending Maintenances</h5>
+                            <h2 th:text="${statistics.totalPendingMaintenances}">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <h5>Completed Maintenances</h5>
+                            <small class="text-muted d-block mb-2">Last 12 Months</small>
+                            <h2 th:text="${statistics.totalCompletedMaintenances}">0</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card stat-card">
+                        <div class="card-body">
+                            <h5>Total Expenses</h5>
+                            <small class="text-muted d-block mb-2">Last 12 Months</small>
+                            <h2 class="stat-value" th:text="${'$' + #numbers.formatDecimal(statistics.totalCosts, 1, 2)}">$0.00</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quarterly Summary and Pending Costs -->
+            <div class="row mb-4" th:if="${statistics != null}">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="mb-0">Current Quarter Summary</h3>
+                        </div>
+                        <div class="card-body">
+                            <p><strong>Quarter:</strong> <span th:text="${statistics.quarterlySummary != null ? statistics.quarterlySummary.quarter : 'N/A'}"></span></p>
+                            <p><strong>Total Expense:</strong> <span th:text="${statistics.quarterlySummary != null ? '$' + #numbers.formatDecimal(statistics.quarterlySummary.totalExpense, 1, 2) : '$0.00'}"></span></p>
+                            <p><strong>Maintenance Count:</strong> <span th:text="${statistics.quarterlySummary != null ? statistics.quarterlySummary.maintenanceCount : 0}"></span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="mb-0">Pending Costs This Month</h3>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="stat-value" th:text="${'$' + #numbers.formatDecimal(statistics.pendingCostsThisMonth, 1, 2)}">$0.00</h4>
+                            <p class="text-muted">Total cost of maintenances expiring this month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cost per Vehicle Chart -->
+            <div class="card mb-4" th:if="${statistics != null and statistics.vehicleCosts != null}">
+                <div class="card-header">
+                    <h3 class="mb-0">Cost per Vehicle</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="vehicleCostChart" height="100"></canvas>
+                </div>
+            </div>
+            
+            <!-- Monthly Expenses Chart -->
+            <div class="card mb-4" th:if="${statistics != null and statistics.monthlyExpenses != null}">
+                <div class="card-header">
+                    <h3 class="mb-0">Monthly Expenses (Last 12 Months)</h3>
+                </div>
+                <div class="card-body">
+                    <canvas id="monthlyExpenseChart" height="100"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            
+            // Vehicle Cost Chart Data
+            var vehicleCostData = /*[[${statistics.vehicleCosts}]]*/ [];
+            var vehicleLabels = [];
+            var vehicleCosts = [];
+            
+            if (vehicleCostData && vehicleCostData.length > 0) {
+                vehicleCostData.forEach(function(item) {
+                    vehicleLabels.push(item.licensePlate + ' (' + item.vehicleName + ')');
+                    vehicleCosts.push(item.totalCost);
+                });
+            }
+            
+            // Monthly Expense Chart Data
+            var monthlyExpenseData = /*[[${statistics.monthlyExpenses}]]*/ [];
+            var monthLabels = [];
+            var monthlyExpenses = [];
+            
+            if (monthlyExpenseData && monthlyExpenseData.length > 0) {
+                monthlyExpenseData.forEach(function(item) {
+                    monthLabels.push(item.monthLabel);
+                    monthlyExpenses.push(item.totalExpense);
+                });
+            }
+            
+            // Chart.js configuration
+            const chartColors = {
+                primary: '#f7ae20',
+                dark: '#262a29',
+                light: '#faf5e9',
+                success: '#28a745',
+                danger: '#dc3545',
+                info: '#17a2b8',
+                textColor: '#262a29',
+                gridColor: '#e0e0e0'
+            };
+            
+            // Common chart options for better contrast
+            const commonChartOptions = {
+                color: chartColors.textColor,
+                scales: {
+                    x: {
+                        ticks: {
+                            color: chartColors.textColor
+                        },
+                        grid: {
+                            color: chartColors.gridColor
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: chartColors.textColor
+                        },
+                        grid: {
+                            color: chartColors.gridColor
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: chartColors.textColor
+                        }
+                    }
+                }
+            };
+            
+            // Vehicle Cost Chart (Bar Chart)
+            if (vehicleLabels.length > 0) {
+                const vehicleCostCtx = document.getElementById('vehicleCostChart');
+                new Chart(vehicleCostCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: vehicleLabels,
+                        datasets: [{
+                            label: 'Total Cost ($)',
+                            data: vehicleCosts,
+                            backgroundColor: chartColors.primary,
+                            borderColor: chartColors.dark,
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        color: chartColors.textColor,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(38, 42, 41, 0.9)',
+                                titleColor: '#faf5e9',
+                                bodyColor: '#faf5e9',
+                                callbacks: {
+                                    label: function(context) {
+                                        return '$' + context.parsed.y.toFixed(2);
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: chartColors.textColor
+                                },
+                                grid: {
+                                    color: chartColors.gridColor
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: chartColors.textColor,
+                                    callback: function(value) {
+                                        return '$' + value.toFixed(2);
+                                    }
+                                },
+                                grid: {
+                                    color: chartColors.gridColor
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                document.getElementById('vehicleCostChart').parentElement.innerHTML = '<p class="text-center text-muted">No data available</p>';
+            }
+            
+            // Monthly Expense Chart (Line Chart)
+            if (monthLabels.length > 0) {
+                const monthlyExpenseCtx = document.getElementById('monthlyExpenseChart');
+                new Chart(monthlyExpenseCtx, {
+                    type: 'line',
+                    data: {
+                        labels: monthLabels,
+                        datasets: [{
+                            label: 'Monthly Expenses ($)',
+                            data: monthlyExpenses,
+                            borderColor: chartColors.primary,
+                            backgroundColor: chartColors.primary + '20',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        color: chartColors.textColor,
+                        plugins: {
+                            legend: {
+                                labels: {
+                                    color: chartColors.textColor
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(38, 42, 41, 0.9)',
+                                titleColor: '#faf5e9',
+                                bodyColor: '#faf5e9',
+                                callbacks: {
+                                    label: function(context) {
+                                        return '$' + context.parsed.y.toFixed(2);
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: {
+                                    color: chartColors.textColor
+                                },
+                                grid: {
+                                    color: chartColors.gridColor
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: chartColors.textColor,
+                                    callback: function(value) {
+                                        return '$' + value.toFixed(2);
+                                    }
+                                },
+                                grid: {
+                                    color: chartColors.gridColor
+                                }
+                            }
+                        }
+                    }
+                });
+            } else {
+                document.getElementById('monthlyExpenseChart').parentElement.innerHTML = '<p class="text-center text-muted">No data available</p>';
+            }
+            
+            /*]]>*/
+        </script>
+    </body>
+</html>
+
