@@ -14,6 +14,7 @@ public class StatisticsDTO {
     private List<VehicleCostDTO> vehicleCosts = new ArrayList<>();
     private float totalCosts;
     private float pendingCostsThisMonth;
+    private float pendingCostsNext12Months;
     private List<MonthlyExpenseDTO> monthlyExpenses = new ArrayList<>();
     private QuarterlySummaryDTO quarterlySummary;
     
@@ -64,6 +65,14 @@ public class StatisticsDTO {
     
     public void setPendingCostsThisMonth(float pendingCostsThisMonth) {
         this.pendingCostsThisMonth = pendingCostsThisMonth;
+    }
+    
+    public float getPendingCostsNext12Months() {
+        return pendingCostsNext12Months;
+    }
+    
+    public void setPendingCostsNext12Months(float pendingCostsNext12Months) {
+        this.pendingCostsNext12Months = pendingCostsNext12Months;
     }
     
     public List<MonthlyExpenseDTO> getMonthlyExpenses() {

@@ -72,6 +72,14 @@ public interface MaintenanceRepository extends CrudRepository<Maintenance,Intege
     Float getPendingCostsThisMonthByUser(@Param("user") User user);
     
     /**
+     * Get total costs of pending maintenances expiring in the next 12 months for a user
+     */
+    @Query("SELECT COALESCE(SUM(m.cost), 0) FROM Maintenance m WHERE m.vehicle.user = :user " +
+           "AND m.paid = false AND m.expirationDate >= CURRENT_DATE " +
+           "AND m.expirationDate <= :endDate")
+    Float getPendingCostsNext12MonthsByUser(@Param("user") User user, @Param("endDate") LocalDate endDate);
+    
+    /**
      * Get total cost per vehicle (only paid maintenances) for a user
      * Returns list of Object[] where [0] = Vehicle, [1] = totalCost (Double)
      */
